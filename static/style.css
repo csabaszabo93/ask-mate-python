@@ -1,0 +1,18 @@
+.round_button {
+    background-color: red; /* Green */
+    border: none;
+    color: white;
+    padding: 50px 80px 50px 80px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 80px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.not-important {
+    color: grey;
+    font-size: small;
+}

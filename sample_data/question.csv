@@ -12,3 +12,6 @@ app.js (bundled file with webpack, including jquery)","images/image1.png"
 2,1493015432,1364,57,"Drawing canvas with an image picked with Cordova Camera Plugin","I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
+8aec929b-b72a-4b7e-bf91-747253b2ea22,1542724329,0,0,A question,asfasfa,afsasf
+d8c0e451-de72-4b57-a055-b9c506ca2402,1542724425,0,0,What should I ask?,asfasf,asdasd
+f8e95c6f-ce71-493a-8173-dadc601bf98b,1542725154,0,0,What should I ask?,asdasdasd,

@@ -11,37 +11,46 @@
           href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>#{{ question.id }} {{ question.title }}
-        <a href=""><i class="fas fa-edit"></i></a>
-        <a href=""><i class="fas fa-trash-alt"></i></a>
-    </h1>
-
-    <p>{{ question.submission_time }}</p>
-    <p>
-        <table>
-            <td><img src="{{ 'question.image' if question.image else 'https://via.placeholder.com/150'}}"/></td>
-            <td>{{ question.message }}</td>
-        </table>
-        {{ question.view_number }}<i class="fas fa-eye"></i>
-        <a href=""><i class="fas fa-arrow-circle-up"></i></a>
-        {{ question.vote_number }}
-        <a href=""><i class="fas fa-arrow-circle-down"></i></a>
-    </p>
-    <h2>Answers</h2>
-    {% for answer in answers_for_question %}
-        <p>{{ answer.submission_time }}</p>
+    <div class="container">
+        <h1>{{ question.title }}
+            <a href=""><i class="fas fa-edit"></i></a>
+            <a href=""><i class="fas fa-trash-alt"></i></a>
+        </h1>
+        <div class="not-important">
+        #{{ question.id }}
+        </div>
+        <p>{{ question.submission_time }}</p>
         <p>
             <table>
-                <td><img src="{{ 'answer.image' if answer.image else 'https://via.placeholder.com/150'}}"/></td>
-                <td>{{ answer.message }}</td>
+                <td><img src="{{ 'question.image' if question.image else 'https://via.placeholder.com/150'}}"/></td>
+                <td>{{ question.message }}</td>
             </table>
-            <a href=""><i class="fas fa-arrow-circle-up"></i></a>
-            {{ answer.vote_number }}
-            <a href=""><i class="fas fa-arrow-circle-down"></i></a>
+            <h4>
+                {{ question.view_number }}<i class="fas fa-eye"></i>&nbsp;&nbsp;&nbsp;
+                <a href=""><i class="fas fa-arrow-circle-up"></i></a>
+                {{ question.vote_number }}
+                <a href=""><i class="fas fa-arrow-circle-down"></i></a>
+            </h4>
         </p>
-    {% endfor %}
-    <a href="/question/{{ question.id }}/new-answer"><button>Add new answer</button></a>
+        <h2>Answers</h2>
+        {% for answer in answers_for_question %}
+            <p>{{ answer.submission_time }}</p>
+            <p>
+                <table>
+                    <td><img src="{{ 'answer.image' if answer.image else 'https://via.placeholder.com/150'}}"/></td>
+                    <td>{{ answer.message }}</td>
+                </table>
+                <h5>
+                    <a href=""><i class="fas fa-arrow-circle-up"></i></a>
+                    {{ answer.vote_number }}
+                    <a href=""><i class="fas fa-arrow-circle-down"></i></a>
+                </h5>
+            </p>
+        {% endfor %}
+        <a href="/question/{{ question.id }}/new-answer"><button>Add new answer</button></a>
+    </div>
 </body>
 </html>

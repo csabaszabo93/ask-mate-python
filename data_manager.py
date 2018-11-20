@@ -1,4 +1,6 @@
 import connection
+import uuid
+import time
 
 
 def get_all_questions():
@@ -20,3 +22,13 @@ def get_answers_for_question(question_id):
     answers_for_question = [answer for answer in answers if answer['question_id'] == question_id]
 
     return answers_for_question
+
+
+def save_new_question(new_question):
+    new_question['id'] = str(uuid.uuid4())
+    new_question['submission_time'] = str(int(time.time()))
+    new_question['view_number'] = 0
+    new_question['vote_number'] = 0
+    connection.add_new_data(new_question, 'question')
+
+    return new_question['id']
