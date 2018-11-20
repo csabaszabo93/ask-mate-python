@@ -1,18 +1,22 @@
-import csv
-from datetime import datetime
+import connection
 
 
-DATA_FILE_PATH = 'sample_data/'
+def get_all_questions():
+    return connection.read_file('question')
 
-def read_file(file_name):
-    file_path = DATA_FILE_PATH + file_name + ".csv"
-    all_data = []
 
-    with open(file_path) as data:
-        reader = csv.DictReader(data)
-        for data_dict in reader:
-            ts = int(data_dict["submission_time"])
-            data_dict["submission_time"] = datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-            all_data.append(data_dict)
+def get_question_by_id(question_id):
+    questions = connection.read_file('question')
+    question = [question for question in questions if question['id'] == question_id][0]
+    return question
 
-    return all_data
+
+def get_all_answers():
+    return connection.read_file('answer')
+
+
+def get_answers_for_question(question_id):
+    answers = get_all_answers()
+    answers_for_question = [answer for answer in answers if answer['question_id'] == question_id]
+
+    return answers_for_question

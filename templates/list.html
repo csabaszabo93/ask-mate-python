@@ -27,7 +27,7 @@
         <tbody>
             {% for question in questions %}
                 <tr>
-                    <td><a href=""><i class="fas fa-search"></i>&nbsp;</a></td>
+                    <td><a href="/question/{{ question.id }}"><i class="fas fa-search"></i>&nbsp;</a></td>
                     <td><a href=""><i class="fas fa-edit"></i>&nbsp;</a></td>
                     <td><a href=""><i class="fas fa-trash-alt"></i>&nbsp;</a></td>
                     <td>{{ question.id }}</td>
