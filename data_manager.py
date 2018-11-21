@@ -32,3 +32,11 @@ def save_new_question(new_question):
     connection.add_new_data(new_question, 'question')
 
     return new_question['id']
+
+
+def save_new_answer(new_answer, question_id):
+    new_answer['id'] = str(uuid.uuid4())
+    new_answer['submission_time'] = str(int(time.time()))
+    new_answer['vote_number'] = 0
+    new_answer['question_id'] = question_id
+    connection.add_new_data(new_answer, 'answer')

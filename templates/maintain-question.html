@@ -36,6 +36,23 @@
             </h4>
         </p>
         <h2>Answers</h2>
+        <div style="display: {{ 'none;' if not is_new_answer else 'true;' }}">
+            <form action="/question/{{ question.id }}/new-answer" method="POST">
+                <div class="row align-items-center">
+                    <div class="col-4">
+                        <label for="image">Image:</label>
+                        <input type="text" id="image" name="image" class="form-control">
+                    </div>
+                    <div class="col-7">
+                         <textarea id='message' name='message' class="form-control" rows="7"
+                                   placeholder="Type here your answer!" required></textarea>
+                    </div>
+                    <div class="col-1">
+                        <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
+                    </div>
+                </div>
+            </form>
+        </div>
         {% for answer in answers_for_question %}
             <p>{{ answer.submission_time }}</p>
             <p>
