@@ -14,29 +14,45 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>AskMate</h1>
-    <p><a href="/add-question">Ask a question</a></p>
-    <table>
-        <thead>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>ID</th>
-            <th>Question</th>
-            <th>Submission Time</th>
-        </thead>
-        <tbody>
-            {% for question in questions %}
-                <tr>
-                    <td><a href="/question/{{ question.id }}"><i class="fas fa-search"></i>&nbsp;</a></td>
-                    <td><a href=""><i class="fas fa-edit"></i>&nbsp;</a></td>
-                    <td><a href=""><i class="fas fa-trash-alt"></i>&nbsp;</a></td>
-                    <td>{{ question.id }}</td>
-                    <td>{{ question.title }}</td>
-                    <td>{{ question.submission_time }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>AskMate</h1>
+        <p><a href="/add-question">Ask a question</a></p>
+        <table class="table table-hover">
+            <thead>
+                <th></th>
+                <th>ID</th>
+                <th>Question</th>
+                <th>Submission Time</th>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <td class="row justify-content-center">
+                            <a href="/question/{{ question.id }}">
+                                <button type="button" class="btn btn-success btn-sm">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </a>
+                            &nbsp;
+                            <a href="">
+                                <button type="button" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </a>
+                            &nbsp;
+                            <a href="">
+                                <button type="button" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </a>
+                        </td>
+                        <td>{{ question.id }}</td>
+                        <td>{{ question.title }}</td>
+                        <td>{{ question.submission_time }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
