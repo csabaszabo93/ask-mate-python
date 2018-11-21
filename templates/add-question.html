@@ -16,15 +16,18 @@
 <body>
     <div class="container">
         <h1>Ask your Mates!</h1>
-        <form action="/add-question" method="POST">
+        {{ question.id }}
+        <form action="{{ '/question/' + question.id + '/edit' if question else '/add-question' }}" method="POST">
             <div class="row">
                 <div class="col-8">
                     <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" class="form-control" required>
+                    <input type="text" id="title" name="title" class="form-control" value="{{ question.title if question}}" required>
                     <label for="message">Message:</label>
-                    <textarea id='message' name='message' class="form-control" rows="10" required></textarea>
+                    <textarea id='message' name='message' class="form-control" rows="10" required>
+                        {{ question.message if question }}
+                    </textarea>
                     <label for="image">Image:</label>
-                    <input type="text" id="image" name="image" class="form-control">
+                    <input type="text" id="image" name="image" value="{{ question.image if question }}" class="form-control">
                 </div>
                 <div class="col-4">
                     <button type='submit' class="round_button"><strong>Save<br>me!</strong></button>

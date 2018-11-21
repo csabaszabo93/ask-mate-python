@@ -1,6 +1,7 @@
 from flask import Flask , render_template, redirect, url_for, request
 import data_manager
 
+
 app = Flask(__name__)
 
 
@@ -33,16 +34,35 @@ def add_new_answer(question_id):
 
 
 
-@app.route('/add-question')
+@app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
-    return render_template('add-question.html')
+    '''GET: Renders the form for the question
+    POST: Adds a new question to the database'''
+    if request.method == 'GET':
+        return render_template('add-question.html', question={})
+    elif request.method == 'POST':
+        question_id = data_manager.save_new_question(request.form.to_dict())
+
+        return redirect(url_for('show_question', question_id=question_id))
 
 
-@app.route('/add-question', methods=['POST'])
-def post_question():
-    question_id = data_manager.save_new_question(request.form.to_dict())
+@app.route('/question/<question_id>/edit', methods=["GET", "POST"])
+def edit_question(question_id):
+    question = data_manager.get_question_by_id(question_id, convert_stamp=False)
 
-    return redirect(url_for('show_question', question_id=question_id))
+    if request.method == "GET":
+
+        return render_template('add-question.html', question=question)
+    elif request.method == 'POST':
+        updated_details = request.form.to_dict()
+
+        updated_question = {}
+        for key in question.keys():
+            updated_question[key] = updated_details[key] if key in updated_details else question[key]
+
+        data_manager.update_question(updated_question)
+
+        return redirect(url_for('show_question', question_id=question_id))
 
 
 if __name__ == '__main__':

@@ -7,8 +7,8 @@ def get_all_questions():
     return connection.read_file('question')
 
 
-def get_question_by_id(question_id):
-    questions = connection.read_file('question')
+def get_question_by_id(question_id, convert_stamp = True):
+    questions = connection.read_file('question', convert_stamp)
     question = [question for question in questions if question['id'] == question_id][0]
     return question
 
@@ -40,3 +40,9 @@ def save_new_answer(new_answer, question_id):
     new_answer['vote_number'] = 0
     new_answer['question_id'] = question_id
     connection.add_new_data(new_answer, 'answer')
+
+
+def update_question(updated_question):
+    questions = connection.read_file('question', convert_stamp=False)
+    updated_questions = [question if question['id'] != updated_question['id'] else updated_question for question in questions ]
+    connection.rewrite_data(updated_questions, 'question')

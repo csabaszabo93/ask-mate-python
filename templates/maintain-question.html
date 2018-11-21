@@ -14,11 +14,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <h1>{{ question.title }}
+        <a href="/question/{{ question.id }}/edit">
+            <button type="button" class="btn btn-primary btn-sm my-button">
+                <i class="fas fa-edit"></i>
+            </button>
+        </a>
+        <a href="">
+            <button type="button" class="btn btn-danger btn-sm my-button">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </a>
+    </h1>
     <div class="container">
-        <h1>{{ question.title }}
-            <a href=""><i class="fas fa-edit"></i></a>
-            <a href=""><i class="fas fa-trash-alt"></i></a>
-        </h1>
         <div class="not-important">
         #{{ question.id }}
         </div>
