@@ -8,6 +8,7 @@ app = Flask(__name__)
 @app.route('/list')
 def show_list():
     questions = data_manager.get_all_questions()
+    questions.sort(reverse=True, key=lambda question: question["submission_time"])
     return render_template('list.html', questions=questions)
 
 
