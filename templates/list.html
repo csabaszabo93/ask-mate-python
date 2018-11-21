@@ -14,39 +14,37 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <h1>AskMate by CAT</h1>
     <div class="container">
-        <h1>AskMate</h1>
-        <p><a href="/add-question">Ask a question</a></p>
-        <table class="table table-hover">
+        <p><a href="/add-question"><button type="button" class="btn btn-secondary">Ask a question</button></a></p>
+        <table class="table table-hover my-colors">
             <thead>
                 <th></th>
-                <th>ID</th>
+                <!--th>ID</th-->
                 <th>Question</th>
                 <th>Submission Time</th>
             </thead>
             <tbody>
                 {% for question in questions %}
                     <tr>
-                        <td class="row justify-content-center">
+                        <td class="row justify-content-center my-table">
                             <a href="/question/{{ question.id }}">
-                                <button type="button" class="btn btn-success btn-sm">
+                                <button type="button" class="btn btn-success btn-sm my-button">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </a>
-                            &nbsp;
                             <a href="">
-                                <button type="button" class="btn btn-primary btn-sm">
+                                <button type="button" class="btn btn-primary btn-sm my-button">
                                     <i class="fas fa-edit"></i>
                                 </button>
                             </a>
-                            &nbsp;
                             <a href="">
-                                <button type="button" class="btn btn-danger btn-sm">
+                                <button type="button" class="btn btn-danger btn-sm my-button">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </a>
                         </td>
-                        <td>{{ question.id }}</td>
+                        <!--td>{{ question.id }}</td-->
                         <td>{{ question.title }}</td>
                         <td>{{ question.submission_time }}</td>
                     </tr>
