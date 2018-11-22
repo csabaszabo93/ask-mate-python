@@ -39,7 +39,7 @@
         <p>{{ question.submission_time }}</p>
         <p>
             <table>
-                <td><img src="{{ 'question.image' if question.image else 'https://via.placeholder.com/150'}}"/></td>
+                <td><img src="{{ 'question.image' if question.image else 'https://via.placeholder.com/150'}}" height="150px"/></td>
                 <td>{{ question.message }}</td>
             </table>
             <h4>
