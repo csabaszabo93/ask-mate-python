@@ -8,6 +8,12 @@ h1{
     background-color: #4e6ea0;
 }
 
+.h2-style{
+    color: white;
+    padding-left: 42px;
+    background-color: #4e6ea0;
+}
+
 .my-colors{
     background-color: #4e6ea0;
     color: white;
@@ -60,4 +66,17 @@ h1{
     outline: 0px;
     border: none;
     color: red;
+}
+
+.my-question-body {
+    background-image: linear-gradient(to right, #6da0f2 , #ca6df2);
+    width: 80%;
+}
+
+.my-answer-body {
+    background-image: linear-gradient(to right, #ca6df2, #6da0f2);
+}
+
+.extra-pad{
+    padding-left: 150px;
 }

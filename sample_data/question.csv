@@ -1,5 +1,6 @@
 id,submission_time,view_number,vote_number,title,message,image
-0,1493368154,29,16,How to make lists in Python?,"I am totally new to this, any hints?",
+0,1493368154,29,16,How to make lists in Python?,"I am totally new to this, any hints?
+                    ",
 1,1493068124,15,9,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
 
 I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
@@ -13,4 +14,5 @@ app.js (bundled file with webpack, including jquery)",images/image1.png
 
 This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
 8aec929b-b72a-4b7e-bf91-747253b2ea22,1542724329,0,0,A question,asfasfa,afsasf
-d8c0e451-de72-4b57-a055-b9c506ca2402,1542724425,0,0,What should I ask?,asfasf,asdasd
+d8c0e451-de72-4b57-a055-b9c506ca2402,1542724425,0,0,What should I ask?,"asfasf
+                    ",asdasd

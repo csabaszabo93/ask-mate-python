@@ -25,8 +25,14 @@
                 <i class="fas fa-trash-alt"></i>
             </button>
         </a>
+        <a href="/list">
+            <button type="button" class="btn btn-secondary btn-sm my-button">
+                <i class="fas fa-home"></i>
+            </button>
+        </a>
     </h1>
     <div class="container">
+        <div class="card-body my-question-body">
         <div class="not-important">
         #{{ question.id }}
         </div>
@@ -51,25 +57,50 @@
                 </form>
             </h4>
         </p>
-        <h2>Answers</h2>
+        </div>
+        <br>
+        <div class="extra-pad">
+        <h2 class="h2-style">
+            Answers
+            <div class="form_inline">
+            {% if not is_new_answer %}
+                <a href="/question/{{ question.id }}/new-answer">
+                    <button type="button" class="btn btn-sm btn-info my-button">
+                            <i class="fas fa-plus-square"></i>
+                    </button>
+                </a>
+            {% else %}
+                <a href="/question/{{ question.id }}">
+                    <button type="button" class="btn btn-sm btn-info my-button">
+                            <i class="fas fa-minus-square"></i>
+                    </button>
+                </a>
+            {% endif %}
+            </div>
+        </h2>
+        </div>
         <div style="display: {{ 'none;' if not is_new_answer else 'true;' }}">
-            <form action="/question/{{ question.id }}/new-answer" method="POST">
-                <div class="row align-items-center">
-                    <div class="col-4">
-                        <label for="image">Image:</label>
-                        <input type="text" id="image" name="image" class="form-control">
+            <div class="extra-pad">
+                <form action="/question/{{ question.id }}/new-answer" method="POST">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <label for="image">Image:</label>
+                            <input type="text" id="image" name="image" class="form-control">
+                        </div>
+                        <div class="col-7">
+                             <textarea id='message' name='message' class="form-control" rows="7"
+                                       placeholder="Type here your answer!" required></textarea>
+                        </div>
+                        <div class="col-1">
+                            <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
+                        </div>
                     </div>
-                    <div class="col-7">
-                         <textarea id='message' name='message' class="form-control" rows="7"
-                                   placeholder="Type here your answer!" required></textarea>
-                    </div>
-                    <div class="col-1">
-                        <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
         {% for answer in answers_for_question %}
+            <div class="extra-pad">
+            <div class="card-body my-answer-body">
             <p>{{ answer.submission_time }}</p>
             <p>
                 <table>
@@ -86,8 +117,10 @@
                     <button type="submit" class="button_down"><h4><i class="fas fa-arrow-circle-down"></i></h4></button>
                 </form>
             </p>
+            </div>
+            </div>
+            <br>
         {% endfor %}
-        <a href="/question/{{ question.id }}/new-answer"><button>Add new answer</button></a>
     </div>
 </body>
 </html>
