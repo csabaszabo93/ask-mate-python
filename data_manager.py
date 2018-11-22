@@ -54,15 +54,19 @@ def update_question(updated_question):
     connection.rewrite_data(updated_questions, 'question')
 
 
+def delete_answer(answer_id):
+    delete_data("answer", answer_id, False)
+
+
 def delete_question_with_answers(question_id):
     delete_data('answer', question_id)
     delete_data('question', question_id)
 
 
-def delete_data(type, question_id):
+def delete_data(type, id, is_more=True):
     all_data = connection.read_file(type, convert_stamp=False)
 
-    data_to_keep = [data for data in all_data if data['question_id' if type == 'answer' else 'id'] != question_id]
+    data_to_keep = [data for data in all_data if data['question_id' if type == 'answer' and is_more else 'id'] != id]
     connection.rewrite_data(data_to_keep, type)
 
 

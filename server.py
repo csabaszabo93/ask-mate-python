@@ -94,6 +94,13 @@ def vote_down(question_id):
     return redirect(url_for('show_question', question_id=question_id))
 
 
+@app.route('/answer/<answer_id>/delete', methods=["POST"])
+def delete_answer(answer_id):
+    data_manager.delete_answer(answer_id)
+    question_id = request.form["question_id"]
+    return redirect(url_for("show_question", question_id=question_id))
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
