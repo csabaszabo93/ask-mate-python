@@ -1,18 +1,7 @@
 id,submission_time,view_number,vote_number,title,message,image
-0,1493368154,29,16,How to make lists in Python?,"I am totally new to this, any hints?
-                    ",
-1,1493068124,15,9,Wordpress loading multiple jQuery Versions,"I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
-
-I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
-
-BUT in my theme i also using jquery via webpack so the loading order is now following:
-
-jquery
-booklet
-app.js (bundled file with webpack, including jquery)",images/image1.png
-2,1493015432,1364,57,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
-
-This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-8aec929b-b72a-4b7e-bf91-747253b2ea22,1542724329,0,0,A question,asfasfa,afsasf
-d8c0e451-de72-4b57-a055-b9c506ca2402,1542724425,0,0,What should I ask?,"asfasf
-                    ",asdasd
+053224cb-63f2-41bb-bde1-b3de1fb27ba4,1542895813,0,0,Why Do Cats Drool?,"In cats, drooling is not considered as commonplace as it is with dogs. As a cat owner, you may wonder what it means when your cat drools. The truth is, there are several possible reasons for drooling in cats. Determining the cause comes down to assessing the situation, knowing your cat, and involving your veterinarian when necessary.",
+0e240762-9f43-4b41-b451-a417579c9a0f,1542695913,0,0,What Is the Average Lifespan of a Cat?,"Cats can live a long time. The average lifespan of a cat is about 15 years, so they often outlive most of our pet dogs. A teenage cat, or even one in their twenties, is not uncommon to see, but many factors can play a role in determining how long your cat might live.",
+daaa8be8-49a1-4e20-9543-fcdc75d11dcc,1541595998,0,0,What Are Polydactyl Cats (A.K.A. Hemingway Cats)?,"People love cats that have unique qualities that set them apart from other cats. There are cats with rare patterns, cats who have different colored eyes, cats with oddly shaped faces, and even cats with extra toes, referred to as polydactyl cats. Polydactyl cats were brought to the attention of many people in part by the famous writer, Ernest Hemingway, who had a love for cats with many digits.",
+ed92dbfb-287e-4a98-b27c-9532a4ba5e5c,1541856076,0,0,Should You Allow Your Cat to Go Outside?,"Next to declawing, the indoor-outdoor question is probably one of the toughest questions for cat owners, with both sides polarized to their own views. Indeed, this debate seems to be more prevalent in the United States, as in many other countries, cats are allowed free access to the outdoors.",
+accc7a21-926a-4af1-9e80-0ae40b5be8d8,1541896114,0,0,Why Do Cats Bring Their Owners 'Gifts' of Dead Animals?,"Although it's been 10,000 years since cats were domesticated, their instinct to hunt remains strong. That's good news for people who own cats as a form of pest control, but not quite as pleasant when your furry indoor cuddle companion finds a lizard somewhere in the house and brings it to the foot of your bed. If you've ever wondered why cats leave ""gifts"" for their owners in the form of dead animals, chalk it up to their instinct to hunt prey and feed their loved ones.",
+2c846aa4-b271-41ba-b68f-99a35f9a0b2d,1541696153,0,0,How can I stop my cat from wool sucking?,"Kittens should be kept with the mother cat until the age of eight weeks, and ideally until they are 12 weeks old. They will normally outgrow their need to suckle when they are introduced to kitten food, although many of them will continue to try to suckle the mother cat for a few weeks longer. They also learn important socializing skills during this 12-week period, which will eventually help them interact positively with other cats and bond with their humans.",
