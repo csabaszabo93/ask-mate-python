@@ -39,3 +39,25 @@ h1{
     color: grey;
     font-size: small;
 }
+
+
+.form_inline {
+    display: inline-block;
+}
+
+
+.button_up {
+    background-color: transparent;
+    border-color: transparent;
+    outline: 0px;
+    border: none;
+    color: green;
+}
+
+.button_down {
+    background-color: transparent;
+    border-color: transparent;
+    outline: 0px;
+    border: none;
+    color: red;
+}

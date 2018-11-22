@@ -13,6 +13,12 @@ def get_question_by_id(question_id, convert_stamp = True):
     return question
 
 
+def get_answer_by_id(answer_id, convert_stamp = True):
+    answers = connection.read_file('answer', convert_stamp)
+    answer = [answer for answer in answers if answer['id'] == answer_id][0]
+    return answer
+
+
 def get_all_answers():
     return connection.read_file('answer')
 
@@ -58,3 +64,12 @@ def delete_data(type, question_id):
 
     data_to_keep = [data for data in all_data if data['question_id' if type == 'answer' else 'id'] != question_id]
     connection.rewrite_data(data_to_keep, type)
+
+
+def change_vote(type, id, change=0):
+    all_data = connection.read_file(type, convert_stamp=False)
+    user_input = get_answer_by_id(id, False) if type == 'answer' else get_question_by_id(id, False)
+    user_input['vote_number'] += change
+
+    updated_data = [user_input if data['id'] == id else data for data in all_data]
+    connection.rewrite_data(updated_data, type)

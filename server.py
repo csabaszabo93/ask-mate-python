@@ -72,6 +72,28 @@ def delete_question(question_id):
     return redirect(url_for('show_list'))
 
 
+@app.route('/question/<question_id>/vote-up', methods=['POST'])
+def vote_up(question_id):
+    if request.form:
+        answer_id = request.form['answer_id']
+        data_manager.change_vote('answer', answer_id, 1)
+    else:
+        data_manager.change_vote('question', question_id, 1)
+
+    return redirect(url_for('show_question', question_id=question_id))
+
+
+@app.route('/question/<question_id>/vote-down', methods=['POST'])
+def vote_down(question_id):
+    if request.form:
+        answer_id = request.form['answer_id']
+        data_manager.change_vote('answer', answer_id, -1)
+    else:
+        data_manager.change_vote('question', question_id, -1)
+
+    return redirect(url_for('show_question', question_id=question_id))
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',

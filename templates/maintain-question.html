@@ -38,9 +38,17 @@
             </table>
             <h4>
                 {{ question.view_number }}<i class="fas fa-eye"></i>&nbsp;&nbsp;&nbsp;
-                <a href=""><i class="fas fa-arrow-circle-up"></i></a>
+                <form action='{{ "/question/" + question.id + "/vote-up"}}' class='form_inline' method="POST" >
+                    <button type="submit" class="button_up">
+                        <i class="fas fa-arrow-circle-up"></i>
+                    </button>
+                </form>
                 {{ question.vote_number }}
-                <a href=""><i class="fas fa-arrow-circle-down"></i></a>
+                <form action='{{ "/question/" + question.id + "/vote-down"}}' class='form_inline' method="POST" >
+                    <button type="submit" class="button_down">
+                        <i class="fas fa-arrow-circle-down"></i>
+                    </button>
+                </form>
             </h4>
         </p>
         <h2>Answers</h2>
@@ -68,11 +76,15 @@
                     <td><img src="{{ 'answer.image' if answer.image else 'https://via.placeholder.com/150'}}"/></td>
                     <td>{{ answer.message }}</td>
                 </table>
-                <h5>
-                    <a href=""><i class="fas fa-arrow-circle-up"></i></a>
+                <form action='{{ "/question/" + question.id + "/vote-up"}}' class='form_inline' method="POST" >
+                    <input type="text" name="answer_id" value="{{ answer.id }}" hidden>
+                    <button type="submit" class="button_up"><h4><i class="fas fa-arrow-circle-up"></i></h4></button>
+                </form>
                     {{ answer.vote_number }}
-                    <a href=""><i class="fas fa-arrow-circle-down"></i></a>
-                </h5>
+                <form action='{{ "/question/" + question.id + "/vote-down"}}' class='form_inline' method="POST" >
+                    <input type="text" name="answer_id" value="{{ answer.id }}" hidden>
+                    <button type="submit" class="button_down"><h4><i class="fas fa-arrow-circle-down"></i></h4></button>
+                </form>
             </p>
         {% endfor %}
         <a href="/question/{{ question.id }}/new-answer"><button>Add new answer</button></a>

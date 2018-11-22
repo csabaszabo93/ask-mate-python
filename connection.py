@@ -14,6 +14,7 @@ def read_file(file_name, convert_stamp=True):
             if convert_stamp:
                 ts = int(data_dict["submission_time"])
                 data_dict["submission_time"] = datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+            data_dict['vote_number'] = int(data_dict['vote_number'])
             all_data.append(data_dict)
 
     return all_data
