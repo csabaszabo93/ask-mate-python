@@ -105,7 +105,7 @@
             <p>{{ answer.submission_time }}</p>
             <p>
                 <table>
-                    <td><img src="{{ 'answer.image' if answer.image else 'https://via.placeholder.com/150'}}"/></td>
+                    <td><img src="{{ answer.image if answer.image else 'https://via.placeholder.com/150'}}" height="150px"/></td>
                     <td>{{ answer.message }}</td>
                 </table>
                 <form action='{{ "/question/" + question.id + "/vote-up"}}' class='form_inline' method="POST" >
