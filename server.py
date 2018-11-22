@@ -65,6 +65,13 @@ def edit_question(question_id):
         return redirect(url_for('show_question', question_id=question_id))
 
 
+@app.route('/question/<question_id>/delete')
+def delete_question(question_id):
+    data_manager.delete_question_with_answers(question_id)
+
+    return redirect(url_for('show_list'))
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
