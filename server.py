@@ -1,8 +1,10 @@
 from flask import Flask , render_template, redirect, url_for, request
 import data_manager
+from flask_moment import Moment
 
 
 app = Flask(__name__)
+moment = Moment(app)
 
 
 @app.route('/')
@@ -48,7 +50,7 @@ def add_question():
 
 @app.route('/question/<question_id>/edit', methods=["GET", "POST"])
 def edit_question(question_id):
-    question = data_manager.get_question_by_id(question_id, convert_stamp=False)
+    question = data_manager.get_question_by_id(question_id)
 
     if request.method == "GET":
 

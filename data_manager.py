@@ -1,79 +1,110 @@
 import connection
-import uuid
-import time
 
 
-def get_all_questions():
-    return connection.read_file('question')
+@connection.connection_handler
+def get_all_questions(cursor):
+    cursor.execute("""
+        SELECT * FROM question;
+    """)
+    return cursor.fetchall()
 
 
-def get_question_by_id(question_id, convert_stamp = True):
-    questions = connection.read_file('question', convert_stamp)
-    question = [question for question in questions if question['id'] == question_id][0]
-    return question
+@connection.connection_handler
+def get_question_by_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE id = %(question_id)s
+                    """,
+                   {'question_id': question_id})
+    return cursor.fetchone()
 
 
-def get_answer_by_id(answer_id, convert_stamp = True):
-    answers = connection.read_file('answer', convert_stamp)
-    answer = [answer for answer in answers if answer['id'] == answer_id][0]
-    return answer
+@connection.connection_handler
+def get_answer_by_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE id = %(answer_id)s
+                    """,
+                   {'answer_id': answer_id})
+    return cursor.fetchone()
 
 
-def get_all_answers():
-    return connection.read_file('answer')
+@connection.connection_handler
+def get_all_answers(cursor):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    """)
+    return cursor.fetchall()
+
+@connection.connection_handler
+def get_answers_for_question(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE question_id = %(question_id)s
+                    """,
+                   {'question_id': question_id})
+
+    return cursor.fetchall()
 
 
-def get_answers_for_question(question_id):
-    answers = get_all_answers()
-    answers_for_question = [answer for answer in answers if answer['question_id'] == question_id]
+@connection.connection_handler
+def save_new_question(cursor, new_question):
+    cursor.execute("""
+                    INSERT INTO question
+                    (title, message, image)
+                    VALUES(%(title)s, %(message)s, %(image)s)
+                    RETURNING id
+                    """,
+                    new_question)
 
-    return answers_for_question
-
-
-def save_new_question(new_question):
-    new_question['id'] = str(uuid.uuid4())
-    new_question['submission_time'] = str(int(time.time()))
-    new_question['view_number'] = 0
-    new_question['vote_number'] = 0
-    connection.add_new_data(new_question, 'question')
-
-    return new_question['id']
+    return cursor.fetchone()['id']
 
 
-def save_new_answer(new_answer, question_id):
-    new_answer['id'] = str(uuid.uuid4())
-    new_answer['submission_time'] = str(int(time.time()))
-    new_answer['vote_number'] = 0
+@connection.connection_handler
+def save_new_answer(cursor, new_answer, question_id):
     new_answer['question_id'] = question_id
-    connection.add_new_data(new_answer, 'answer')
+    cursor.execute("""
+                    INSERT INTO answer
+                    (question_id, message, image)
+                    VALUES(%(question_id)s, %(message)s, %(image)s)
+                    """,
+                   new_answer)
 
 
-def update_question(updated_question):
-    questions = connection.read_file('question', convert_stamp=False)
-    updated_questions = [question if question['id'] != updated_question['id'] else updated_question for question in questions ]
-    connection.rewrite_data(updated_questions, 'question')
+@connection.connection_handler
+def update_question(cursor, updated_question):
+    cursor.execute("""
+                    UPDATE question
+                    SET title = %(title)s, message = %(message)s, image = %(image)s
+                    WHERE id = %(id)s
+                    """,
+                   updated_question)
 
 
-def delete_answer(answer_id):
-    delete_data("answer", answer_id, False)
+@connection.connection_handler
+def delete_answer(cursor, answer_id):
+    cursor.execute("""
+                    DELETE FROM answer
+                    WHERE id = %(answer_id)s
+                    """,
+                   {"answer_id": answer_id})
 
 
-def delete_question_with_answers(question_id):
-    delete_data('answer', question_id)
-    delete_data('question', question_id)
+@connection.connection_handler
+def delete_question_with_answers(cursor, question_id):
+    cursor.execute("""
+                    DELETE FROM question
+                    WHERE id = %(question_id)s
+                    """,
+                   {"question_id": question_id})
 
 
-def delete_data(type, id, is_more=True):
-    all_data = connection.read_file(type, convert_stamp=False)
-
-    data_to_keep = [data for data in all_data if data['question_id' if type == 'answer' and is_more else 'id'] != id]
-    connection.rewrite_data(data_to_keep, type)
-
-
-def change_vote(type, id, change=0):
-    all_data = connection.read_file(type, convert_stamp=False)
-    user_input = get_answer_by_id(id, False) if type == 'answer' else get_question_by_id(id, False)
-    user_input['vote_number'] += change
-
-    updated_data = [user_input if data['id'] == id else data for data in all_data]
-    connection.rewrite_data(updated_data, type)
+@connection.connection_handler
+def change_vote(cursor, type, id, change=0):
+    cursor.execute("""
+                    UPDATE {}
+                    SET vote_number = vote_number + %(change)s
+                    WHERE id = %(id)s
+                    """.format(type if type in ['answer', 'question'] else ''),
+                   {'id': id,
+                    'change': change})

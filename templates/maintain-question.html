@@ -12,6 +12,8 @@
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
           crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
 </head>
 <body>
     <h1>{{ question.title }}
@@ -36,7 +38,7 @@
         <div class="not-important">
         #{{ question.id }}
         </div>
-        <p>{{ question.submission_time }}</p>
+        <p>{{ moment(question.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
         <p>
             <table>
                 <td><img src="{{ question.image if question.image else 'https://via.placeholder.com/150'}}" height="150px"/></td>
@@ -44,13 +46,13 @@
             </table>
             <h4>
                 {{ question.view_number }}<i class="fas fa-eye"></i>&nbsp;&nbsp;&nbsp;
-                <form action='{{ "/question/" + question.id + "/vote-up"}}' class='form_inline' method="POST" >
+                <form action='{{ "/question/" + question.id|string + "/vote-up"}}' class='form_inline' method="POST" >
                     <button type="submit" class="button_up">
                         <i class="fas fa-arrow-circle-up"></i>
                     </button>
                 </form>
                 {{ question.vote_number }}
-                <form action='{{ "/question/" + question.id + "/vote-down"}}' class='form_inline' method="POST" >
+                <form action='{{ "/question/" + question.id|string + "/vote-down"}}' class='form_inline' method="POST" >
                     <button type="submit" class="button_down">
                         <i class="fas fa-arrow-circle-down"></i>
                     </button>
@@ -102,18 +104,18 @@
         {% for answer in answers_for_question %}
             <div class="extra-pad">
             <div class="card-body my-answer-body">
-            <p>{{ answer.submission_time }}</p>
+            <p>{{ moment(answer.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
             <p>
                 <table>
                     <td><img src="{{ answer.image if answer.image else 'https://via.placeholder.com/150'}}" height="150px"/></td>
                     <td>{{ answer.message }}</td>
                 </table>
-                <form action='{{ "/question/" + question.id + "/vote-up"}}' class='form_inline' method="POST" >
+                <form action='{{ "/question/" + question.id|string + "/vote-up"}}' class='form_inline' method="POST" >
                     <input type="text" name="answer_id" value="{{ answer.id }}" hidden>
                     <button type="submit" class="button_up"><h4><i class="fas fa-arrow-circle-up"></i></h4></button>
                 </form>
                     {{ answer.vote_number }}
-                <form action='{{ "/question/" + question.id + "/vote-down"}}' class='form_inline' method="POST" >
+                <form action='{{ "/question/" + question.id|string + "/vote-down"}}' class='form_inline' method="POST" >
                     <input type="text" name="answer_id" value="{{ answer.id }}" hidden>
                     <button type="submit" class="button_down"><h4><i class="fas fa-arrow-circle-down"></i></h4></button>
                 </form>

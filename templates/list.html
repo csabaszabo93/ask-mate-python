@@ -12,6 +12,8 @@
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
           crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
 </head>
 <body>
     <h1>AskMate by CAT</h1>
@@ -46,7 +48,7 @@
                         </td>
                         <!--td>{{ question.id }}</td-->
                         <td>{{ question.title }}</td>
-                        <td>{{ question.submission_time }}</td>
+                        <td>{{ moment(question.submission_time).format('YYYY.MM.DD. HH:MM') }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -1,46 +1,42 @@
-import csv
-from datetime import datetime
+import os
+import psycopg2
+import psycopg2.extras
 
 
-DATA_FILE_PATH = 'sample_data/'
+def get_connection_string():
+    user_name = os.environ.get('PSQL_USER_NAME')
+    password = os.environ.get('PSQL_PASSWORD')
+    host = os.environ.get('PSQL_HOST')
+    database_name = os.environ.get('PSQL_DB_NAME')
 
-def read_file(file_name, convert_stamp=True):
-    file_path = DATA_FILE_PATH + file_name + ".csv"
-    all_data = []
+    env_variables_defined = user_name and password and host and database_name
 
-    with open(file_path) as data:
-        reader = csv.DictReader(data)
-        for data_dict in reader:
-            if convert_stamp:
-                ts = int(data_dict["submission_time"])
-                data_dict["submission_time"] = datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-            data_dict['vote_number'] = int(data_dict['vote_number'])
-            all_data.append(data_dict)
-
-    return all_data
+    if env_variables_defined:
+        # this string describes all info for psycopg2 to connect to the database
+        return f'user={user_name} password={password} host={host} dbname={database_name}'
+    else:
+        raise KeyError('Some necessary environment variable(s) are not defined')
 
 
-def add_new_data(new_data, file_name):
-    file_path = DATA_FILE_PATH + file_name + ".csv"
-
-    with open(file_path, 'a') as data:
-        writer = csv.DictWriter(data, fieldnames=get_fieldnames(file_path))
-        writer.writerow(new_data)
-
-
-def rewrite_data(new_data, file_name):
-    file_path = DATA_FILE_PATH + file_name + ".csv"
-    fieldnames = get_fieldnames(file_path)
-
-    with open(file_path, 'w') as data:
-        writer = csv.DictWriter(data, fieldnames=fieldnames)
-
-        writer.writeheader()
-        for row in new_data:
-            writer.writerow(row)
+def open_database():
+    try:
+        connection_string = get_connection_string()
+        connection = psycopg2.connect(connection_string)
+        connection.autocommit = True
+    except psycopg2.DatabaseError as exception:
+        print('Database connection problem')
+        raise exception
+    return connection
 
 
-def get_fieldnames(file_path):
-    with open(file_path) as data:
-        fieldnames = data.readline().strip().split(',')
-        return fieldnames
+def connection_handler(function):
+    def wrapper(*args, **kwargs):
+        connection = open_database()
+        # we set the cursor_factory parameter to return with a RealDictCursor cursor (cursor which provide dictionaries)
+        dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        ret_value = function(dict_cur, *args, **kwargs)
+        dict_cur.close()
+        connection.close()
+        return ret_value
+
+    return wrapper

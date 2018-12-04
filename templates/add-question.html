@@ -23,7 +23,7 @@
         </a>
     </h1>
     <div class="container">
-        <form action="{{ '/question/' + question.id + '/edit' if question else '/add-question' }}" method="POST">
+        <form action="{{ '/question/' + question.id|string + '/edit' if question else '/add-question' }}" method="POST">
             <div class="row">
                 <div class="col-8">
                     <label for="title">Title:</label>
