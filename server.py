@@ -16,14 +16,17 @@ def show_list():
 
 
 @app.route('/question/<question_id>')
-def show_question(question_id, is_new_answer=False):
+def show_question(question_id, is_new_answer=False, is_new_comment=False):
     question = data_manager.get_question_by_id(question_id)
     answers_for_question = data_manager.get_answers_for_question(question_id)
+    comments_for_question = data_manager.get_comments(question_id)
 
     return render_template('maintain-question.html',
                            question=question,
                            answers_for_question=answers_for_question,
-                           is_new_answer=is_new_answer)
+                           is_new_answer=is_new_answer,
+                           comments_for_question=comments_for_question,
+                           is_new_comment=is_new_comment)
 
 
 @app.route('/question/<question_id>/new-answer', methods=["GET", "POST"])
@@ -101,6 +104,18 @@ def delete_answer(answer_id):
     data_manager.delete_answer(answer_id)
     question_id = request.form["question_id"]
     return redirect(url_for("show_question", question_id=question_id))
+
+
+@app.route('/question/<question_id>/new-comment', methods=["GET", "POST"])
+def add_new_comment_to_question(question_id):
+    if request.method == "GET":
+        return show_question(question_id, is_new_comment=True)
+    elif request.method == "POST":
+        new_comment = request.form.to_dict()
+        new_comment["question_id"] = question_id
+        new_comment["answer_id"] = None
+        data_manager.add_comment(new_comment)
+        return redirect(url_for("show_question", question_id=question_id))
 
 
 if __name__ == '__main__':

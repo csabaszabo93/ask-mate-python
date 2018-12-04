@@ -102,12 +102,9 @@
         <br>
         {% for comment in comments_for_question %}
             <div class="extra-pad card-body my-answer-body">
-                <p>{{ moment(comment.submission_time) }}</p>
+                <p>{{ moment(comment.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
                 <p>
-                    <table>
-                        <td><img src="{{ comment.image if comment.image else 'https://via.placeholder.com/150'}}" height="150px"/></td>
-                        <td>{{ comment.message }}</td>
-                    </table>
+                    {{ comment.message }}
                 </p>
             </div>
         <br>
