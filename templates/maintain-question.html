@@ -59,10 +59,7 @@
                 </form>
             </h4>
         </p>
-        </div>
-        <br>
-        <div class="extra-pad">
-        <h2 id="comments">
+        <div id="comments-title">
             Comments
             <div class="form_inline">
             {% if not is_new_comment %}
@@ -79,20 +76,16 @@
                 </a>
             {% endif %}
             </div>
-        </h2>
+        </div>
         <div style="display: {{ 'none;' if not is_new_comment else 'true;' }}">
-            <div class="extra-pad">
+            <div id="add-comment-text">
                 <form action="/question/{{ question.id }}/new-comment" method="POST">
                     <div class="row align-items-center">
-                        <div class="col-4">
-                            <label for="image">Image:</label>
-                            <input type="text" id="image" name="image" class="form-control">
-                        </div>
-                        <div class="col-7">
-                             <textarea id='message' name='message' class="form-control" rows="7"
+                        <div class="col-10">
+                             <textarea id='message' name='message' class="form-control" rows="3"
                                        placeholder="Type here your comment!" required></textarea>
                         </div>
-                        <div class="col-1">
+                        <div class="col-2" id='add-comment-buttom'>
                             <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
                         </div>
                     </div>
@@ -101,14 +94,17 @@
         </div>
         <br>
         {% for comment in comments_for_question %}
-            <div class="extra-pad card-body my-answer-body">
-                <p>{{ moment(comment.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
-                <p>
+            <div id=comment class="card-body my-answer-body">
+                <p class="no-margin">{{ moment(comment.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
+                <p class="no-margin">
                     {{ comment.message }}
                 </p>
             </div>
         <br>
         {% endfor %}
+        </div>
+        <br>
+        <div class="extra-pad">
         <h2 class="h2-style">
             Answers
             <div class="form_inline">

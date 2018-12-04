@@ -8,12 +8,30 @@ h1{
     background-color: #4e6ea0;
 }
 
-#comments {
+#add-comment-buttom {
+    margin-left: -15px;
+}
+
+#add-comment-text {
+    margin-left: 220px;
+    margin-top: 10px;
+}
+
+#comments-title {
     color: white;
     padding-left: 24px;
     background-color: #4e6ea0;
     border-radius: 10px;
+    margin-left: 200px;
   }
+
+#comment {
+    margin-left: 200px;
+}
+
+.no-margin {
+    margin: 0
+}
 
 .h2-style{
     color: white;
