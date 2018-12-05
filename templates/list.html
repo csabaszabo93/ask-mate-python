@@ -25,7 +25,7 @@
             <div class="col-8 search-bar">
                 <form action="{{ url_for("search") }}" method="GET">
                     <input name="q" type="text" placeholder="Search...">
-                    <button type="submit" class="btn btn-info my-button"><i class="fas fa-search"></i></button>
+                    <button type="submit" class="btn btn-success my-button"><i class="fas fa-search"></i></button>
                 </form>
             </div>
         </div>
@@ -44,8 +44,8 @@
                     <tr>
                         <td class="row justify-content-center my-table">
                             <a href="/question/{{ question.id }}">
-                                <button type="button" class="btn btn-success btn-sm my-button">
-                                    <i class="fas fa-search"></i>
+                                <button type="button" class="btn btn-warning btn-sm my-button">
+                                    <i class="fas fa-envelope-open-text"></i>
                                 </button>
                             </a>
                             <a href="/question/{{ question.id }}/edit">
