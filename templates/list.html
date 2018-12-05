@@ -16,7 +16,8 @@
     {{ moment.include_moment() }}
 </head>
 <body>
-    <h1>AskMate by CAT</h1>
+<img src="/static/running_cat.gif" id="running-cat">
+<h1>AskMate by CAT</h1>
     <div class="container">
         <p><a href="/add-question"><button type="button" class="btn btn-secondary">Ask a question</button></a></p>
         <table class="table table-hover my-colors">
@@ -53,7 +54,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <div align="center" {{ 'hidden' if questions|length > 5 else '' }}><a href="/list"><button id="more-questions">More questions</button></a></div>
+        <div align="center" {{ 'hidden' if not is_index_page else '' }}><a href="/list"><button id="more-questions">More questions</button></a></div>
     </div>
 </body>
 </html>
