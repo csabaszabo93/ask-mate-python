@@ -108,3 +108,16 @@ def change_vote(cursor, type, id, change=0):
                     """.format(type if type in ['answer', 'question'] else ''),
                    {'id': id,
                     'change': change})
+
+@connection.connection_handler
+def get_filtered_questions(cursor, filter):
+    cursor.execute("""
+                    SELECT * FROM question
+                    LEFT JOIN answer ON question.id=answer.question_id
+                    WHERE question.message LIKE %(word)s
+                    OR question.title LIKE %(word)s
+                    OR answer.message LIKE %(word)s        
+                    ;
+                """,
+                filter)
+    return cursor.fetchall()
