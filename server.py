@@ -25,8 +25,7 @@ def show_list():
 
 
 @app.route('/question/<question_id>')
-def show_question(question_id, is_new_answer=False, is_new_comment=False, answer_to_edit=None, comment_to_edit=None):
-def show_question(question_id, comments_for_answers, is_new_answer=False, is_new_comment=False, answer_to_edit=False, answer_to_comment=False):
+def show_question(question_id, comments_for_answers, is_new_answer=False, is_new_comment=False, answer_to_edit=None, answer_to_comment=None, comment_to_edit=None):
     question = data_manager.get_question_by_id(question_id)
     answers_for_question = data_manager.get_answers_for_question(question_id)
     comments_for_question = data_manager.get_comments(question_id)
@@ -39,9 +38,8 @@ def show_question(question_id, comments_for_answers, is_new_answer=False, is_new
                            comments_for_answers=comments_for_answers,
                            is_new_comment=is_new_comment,
                            answer_to_edit=answer_to_edit,
+                           comment_to_edit=comment_to_edit,
                            answer_to_comment=answer_to_comment)
-                           answer_to_edit=answer_to_edit,
-                           comment_to_edit=comment_to_edit)
 
 
 @app.route('/question/<question_id>/new-answer', methods=["GET", "POST"])
