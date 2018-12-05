@@ -41,6 +41,7 @@ def get_answers_for_question(cursor, question_id):
     cursor.execute("""
                     SELECT * FROM answer
                     WHERE question_id = %(question_id)s
+                    ORDER BY submission_time DESC
                     """,
                    {'question_id': question_id})
 
@@ -172,3 +173,23 @@ def get_comments_for_answers(cursor, question_id):
             answer_id_sorted_comments[key] += [comment]
 
     return answer_id_sorted_comments
+
+
+@connection.connection_handler
+def get_comment_by_id(cursor, id):
+    cursor.execute("""
+                    SELECT id, question_id, message FROM comment
+                    WHERE id = %(id)s
+                    """,
+                   {"id": id})
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def update_comment(cursor, updated_comment):
+    cursor.execute("""
+                    UPDATE comment
+                    SET message = %(message)s, edited_count = edited_count + 1, submission_time = now()
+                    WHERE id = %(id)s
+                    """,
+                   updated_comment)
