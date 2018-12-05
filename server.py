@@ -25,10 +25,11 @@ def show_list():
 
 
 @app.route('/question/<question_id>')
-def show_question(question_id, comments_for_answers, is_new_answer=False, is_new_comment=False, answer_to_edit=False, answer_to_comment=False):
+def show_question(question_id, is_new_answer=False, is_new_comment=False, answer_to_edit=False, answer_to_comment=False):
     question = data_manager.get_question_by_id(question_id)
     answers_for_question = data_manager.get_answers_for_question(question_id)
     comments_for_question = data_manager.get_comments(question_id)
+    comments_for_answers = data_manager.get_comments_for_answers(question_id)
 
     return render_template('maintain-question.html',
                            question=question,
@@ -134,7 +135,7 @@ def add_new_comment_to_answer(answer_id):
     question_id = data_manager.get_answer_by_id(answer_id)['question_id']
     comments_for_answers = data_manager.get_comments_for_answers(question_id)
     if request.method == "GET":
-        return show_question(question_id, comments_for_answers=comments_for_answers, answer_to_comment=answer_id)
+        return show_question(question_id, answer_to_comment=answer_id)
     elif request.method == "POST":
         new_comment = request.form.to_dict()
         new_comment["question_id"] = question_id

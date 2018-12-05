@@ -239,7 +239,7 @@
 
         <div style="display: {{ 'none;' if not answer.id|string == answer_to_comment|string else 'true;' }}">
             <div id="add-comment-text">
-                <form action="/answer/<answer_id>/new-comment#{{answer.id}}" method="POST">
+                <form action="/answer/{{answer.id}}/new-comment#{{answer.id}}" method="POST">
                     <div class="row align-items-center">
                         <div class="col-10">
                              <textarea id='message' name='message' class="form-control" rows="3"
@@ -257,8 +257,7 @@
 
 
 
-
-                {% for comment in comments_for_question %}
+                {% for comment in comments_for_answers[answer.id|string] %}
 
                 <div id=comment class="card-body my-answer-body">
                     <p class="no-margin">{{ moment(comment.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>

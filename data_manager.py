@@ -122,7 +122,7 @@ def add_comment(cursor, new_comment):
 def get_comments(cursor, id):
     cursor.execute("""
                     SELECT * FROM comment
-                    WHERE question_id = %(id)s OR answer_id = %(id)s
+                    WHERE question_id = %(id)s AND answer_id IS NULL
                     """,
                    {"id": id})
     return cursor.fetchall()
