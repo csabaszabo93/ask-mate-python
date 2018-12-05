@@ -25,10 +25,11 @@ def show_list():
 
 
 @app.route('/question/<question_id>')
-def show_question(question_id, comments_for_answers, is_new_answer=False, is_new_comment=False, answer_to_edit=False, answer_to_comment=False):
+def show_question(question_id, is_new_answer=False, is_new_comment=False, answer_to_edit=False, answer_to_comment=False, comment_to_edit=None):
     question = data_manager.get_question_by_id(question_id)
     answers_for_question = data_manager.get_answers_for_question(question_id)
     comments_for_question = data_manager.get_comments(question_id)
+    comments_for_answers = data_manager.get_comments_for_answers(question_id)
 
     return render_template('maintain-question.html',
                            question=question,
@@ -38,7 +39,8 @@ def show_question(question_id, comments_for_answers, is_new_answer=False, is_new
                            comments_for_answers=comments_for_answers,
                            is_new_comment=is_new_comment,
                            answer_to_edit=answer_to_edit,
-                           answer_to_comment=answer_to_comment)
+                           answer_to_comment=answer_to_comment,
+                           comment_to_edit=comment_to_edit)
 
 
 @app.route('/question/<question_id>/new-answer', methods=["GET", "POST"])
@@ -134,13 +136,13 @@ def add_new_comment_to_answer(answer_id):
     question_id = data_manager.get_answer_by_id(answer_id)['question_id']
     comments_for_answers = data_manager.get_comments_for_answers(question_id)
     if request.method == "GET":
-        return show_question(question_id, comments_for_answers=comments_for_answers, answer_to_comment=answer_id)
+        return show_question(question_id, answer_to_comment=answer_id)
     elif request.method == "POST":
         new_comment = request.form.to_dict()
         new_comment["question_id"] = question_id
         new_comment["answer_id"] = answer_id
         data_manager.add_comment(new_comment)
-        return redirect(url_for("show_question", comments_for_answers=comments_for_answers, question_id=question_id))
+        return redirect(url_for("show_question", question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/edit', methods=["GET", "POST"])
@@ -161,6 +163,19 @@ def search():
     questions = data_manager.get_filtered_questions({'word': '%{}%'.format(query['q'])})
     questions.sort(reverse=True, key=lambda question: question["submission_time"])
     return render_template('list.html', questions=questions)
+
+
+@app.route('/comments/<comment_id>/edit', methods=["GET", "POST"])
+def edit_comment(comment_id):
+    comment = data_manager.get_comment_by_id(comment_id)
+    question_id = comment["question_id"]
+    if request.method == "GET":
+        return show_question(question_id, comment_to_edit=comment_id)
+    elif request.method == "POST":
+        data = request.form.to_dict()
+        data['id'] = comment_id
+        data_manager.update_comment(data)
+        return redirect(url_for("show_question", question_id=question_id))
 
 
 if __name__ == '__main__':
