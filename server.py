@@ -146,8 +146,10 @@ def edit_answer(answer_id):
     if request.method == "GET":
         return show_question(answer['question_id'], answer_to_edit=answer_id)
     elif request.method == "POST":
-        data_manager.save_new_answer(request.form.to_dict(), question_id)
-        return redirect(url_for("show_question", question_id=question_id))
+        data = request.form.to_dict()
+        data['id'] = answer_id
+        data_manager.update_answer(data)
+        return redirect(url_for("show_question", question_id=answer['question_id']))
 
 
 @app.route('/search', methods=["GET"])

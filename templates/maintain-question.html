@@ -147,19 +147,19 @@
         {% for answer in answers_for_question %}
 
 
-
+        <a name={{answer.id}}></a>
         <div style="display: {{ 'none;' if answer_to_edit|string != answer.id|string else 'true;' }}">
-            <a name={{answer.id}}></a>
+
             <div class="extra-pad">
-                <form action="/question/{{ question.id }}/new-answer" method="POST">
+                  <form action="/answer/{{ answer.id }}/edit#{{ answer.id }}" method="POST">
                     <div class="row align-items-center">
                         <div class="col-4">
                             <label for="image">Image:</label>
                             <input type="text" id="image" value="{{ answer.image }}" name="image" class="form-control">
                         </div>
                         <div class="col-7">
-                             <textarea id='message' value="{{ answer.message }}" name='message' class="form-control" rows="7"
-                                       placeholder="Type here your answer!" required></textarea>
+                             <textarea id='message'  name='message' class="form-control" rows="7"
+                                       placeholder="Type here your answer!" required>{{ answer.message }}</textarea>
                         </div>
                         <div class="col-1">
                             <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>

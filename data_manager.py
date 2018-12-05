@@ -139,3 +139,14 @@ def get_filtered_questions(cursor, filter):
                 """,
                 filter)
     return cursor.fetchall()
+
+
+@connection.connection_handler
+def update_answer(cursor, updated_question):
+    cursor.execute("""
+                    UPDATE answer
+                    SET message = %(message)s, image = %(image)s
+                    WHERE id = %(id)s
+                    """,
+                   updated_question)
+
