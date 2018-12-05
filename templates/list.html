@@ -53,6 +53,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div align="center" {{ 'hidden' if questions|length > 5 else '' }}><a href="/list"><button id="more-questions">More questions</button></a></div>
     </div>
 </body>
 </html>

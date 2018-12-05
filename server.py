@@ -8,6 +8,15 @@ moment = Moment(app)
 
 
 @app.route('/')
+def index():
+    number_of_questions = 5
+
+    questions = data_manager.get_all_questions()
+    questions.sort(reverse=True, key=lambda question: question["submission_time"])
+    questions = questions[:number_of_questions]
+
+    return render_template('list.html', questions=questions)
+
 @app.route('/list')
 def show_list():
     questions = data_manager.get_all_questions()
