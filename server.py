@@ -15,7 +15,7 @@ def index():
     questions.sort(reverse=True, key=lambda question: question["submission_time"])
     questions = questions[:number_of_questions]
 
-    return render_template('list.html', questions=questions)
+    return render_template('list.html', questions=questions, is_index_page=True)
 
 @app.route('/list')
 def show_list():
