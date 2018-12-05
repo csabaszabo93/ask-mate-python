@@ -36,7 +36,6 @@ def show_question(question_id, is_new_answer=False, is_new_comment=False, answer
                            is_new_answer=is_new_answer,
                            comments_for_question=comments_for_question,
                            is_new_comment=is_new_comment,
-                           is_new_answer=is_new_answer,
                            answer_to_edit=answer_to_edit)
 
 
