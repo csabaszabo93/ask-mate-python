@@ -123,8 +123,7 @@ def add_comment(cursor, new_comment):
 def get_comments(cursor, id):
     cursor.execute("""
                     SELECT * FROM comment
-                    WHERE question_id = %(id)s OR answer_id = %(id)s
-                    ORDER BY submission_time DESC
+                    WHERE question_id = %(id)s AND answer_id IS NULL
                     """,
                    {"id": id})
     return cursor.fetchall()
@@ -174,6 +173,8 @@ def get_comments_for_answers(cursor, question_id):
             answer_id_sorted_comments[key] += [comment]
 
     return answer_id_sorted_comments
+
+
 @connection.connection_handler
 def get_comment_by_id(cursor, id):
     cursor.execute("""

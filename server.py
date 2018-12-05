@@ -25,7 +25,7 @@ def show_list():
 
 
 @app.route('/question/<question_id>')
-def show_question(question_id, comments_for_answers, is_new_answer=False, is_new_comment=False, answer_to_edit=None, answer_to_comment=None, comment_to_edit=None):
+def show_question(question_id, comments_for_answers, is_new_answer=False, is_new_comment=False, answer_to_edit=False, answer_to_comment=False):
     question = data_manager.get_question_by_id(question_id)
     answers_for_question = data_manager.get_answers_for_question(question_id)
     comments_for_question = data_manager.get_comments(question_id)
@@ -38,7 +38,6 @@ def show_question(question_id, comments_for_answers, is_new_answer=False, is_new
                            comments_for_answers=comments_for_answers,
                            is_new_comment=is_new_comment,
                            answer_to_edit=answer_to_edit,
-                           comment_to_edit=comment_to_edit,
                            answer_to_comment=answer_to_comment)
 
 
@@ -162,19 +161,6 @@ def search():
     questions = data_manager.get_filtered_questions({'word': '%{}%'.format(query['q'])})
     questions.sort(reverse=True, key=lambda question: question["submission_time"])
     return render_template('list.html', questions=questions)
-
-
-@app.route('/comments/<comment_id>/edit', methods=["GET", "POST"])
-def edit_comment(comment_id):
-    comment = data_manager.get_comment_by_id(comment_id)
-    question_id = comment["question_id"]
-    if request.method == "GET":
-        return show_question(question_id, comment_to_edit=comment["id"])
-    elif request.method == "POST":
-        updated_comment = request.form.to_dict()
-        updated_comment["id"] = comment["id"]
-        data_manager.update_comment(updated_comment)
-        return redirect(url_for("show_question", question_id=question_id))
 
 
 if __name__ == '__main__':
