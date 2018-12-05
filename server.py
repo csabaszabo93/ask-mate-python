@@ -47,7 +47,6 @@ def add_new_answer(question_id):
         return redirect(url_for("show_question", question_id=question_id))
 
 
-
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
     '''GET: Renders the form for the question
@@ -123,6 +122,20 @@ def add_new_comment_to_question(question_id):
         new_comment = request.form.to_dict()
         new_comment["question_id"] = question_id
         new_comment["answer_id"] = None
+        data_manager.add_comment(new_comment)
+        return redirect(url_for("show_question", question_id=question_id))
+
+
+@app.route('/answer/<answer_id>/new-comment', methods=["GET", "POST"])
+def add_new_comment_to_answer(answer_id):
+    if request.method == "GET":
+        question_id = data_manager.get_answer_by_id(answer_id)['question_id']
+        return show_question(question_id, is_new_answer_comment=True)
+    elif request.method == "POST":
+        question_id = data_manager.get_answer_by_id(answer_id)['question_id']
+        new_comment = request.form.to_dict()
+        new_comment["question_id"] = question_id
+        new_comment["answer_id"] = answer_id
         data_manager.add_comment(new_comment)
         return redirect(url_for("show_question", question_id=question_id))
 
