@@ -16,7 +16,20 @@
     {{ moment.include_moment() }}
 </head>
 <body>
-    <h1>AskMate by CAT</h1>
+    <img src="/static/running_cat.gif" id="running-cat">
+    <h1>
+        <div class="row header">
+            <div class="col-4">
+                <a href="/" class="not-link-appearance">AskMate by CAT</a>
+            </div>
+            <div class="col-8 search-bar">
+                <form action="{{ url_for("search") }}" method="GET">
+                    <input name="q" type="text" placeholder="Search...">
+                    <button type="submit" class="btn btn-info my-button"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </h1>
     <div class="container">
         <p><a href="/add-question"><button type="button" class="btn btn-secondary">Ask a question</button></a></p>
         <table class="table table-hover my-colors">
@@ -53,7 +66,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <div align="center" {{ 'hidden' if questions|length > 5 else '' }}><a href="/list"><button id="more-questions">More questions</button></a></div>
+        <div align="center" {{ 'hidden' if not is_index_page else '' }}><a href="/list"><button id="more-questions">More questions</button></a></div>
     </div>
 </body>
 </html>

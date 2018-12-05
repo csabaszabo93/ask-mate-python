@@ -15,7 +15,7 @@ def index():
     questions.sort(reverse=True, key=lambda question: question["submission_time"])
     questions = questions[:number_of_questions]
 
-    return render_template('list.html', questions=questions)
+    return render_template('list.html', questions=questions, is_index_page=True)
 
 @app.route('/list')
 def show_list():
@@ -129,11 +129,10 @@ def add_new_comment_to_question(question_id):
 
 @app.route('/answer/<answer_id>/new-comment', methods=["GET", "POST"])
 def add_new_comment_to_answer(answer_id):
+    question_id = data_manager.get_answer_by_id(answer_id)['question_id']
     if request.method == "GET":
-        question_id = data_manager.get_answer_by_id(answer_id)['question_id']
         return show_question(question_id, is_new_answer_comment=True)
     elif request.method == "POST":
-        question_id = data_manager.get_answer_by_id(answer_id)['question_id']
         new_comment = request.form.to_dict()
         new_comment["question_id"] = question_id
         new_comment["answer_id"] = answer_id
@@ -152,12 +151,14 @@ def edit_answer(answer_id):
         data_manager.update_answer(data)
         return redirect(url_for("show_question", question_id=answer['question_id']))
 
+
 @app.route('/search', methods=["GET"])
 def search():
     query = request.args or {}
     questions = data_manager.get_filtered_questions({'word': '%{}%'.format(query['q'])})
     questions.sort(reverse=True, key=lambda question: question["submission_time"])
     return render_template('list.html', questions=questions)
+
 
 if __name__ == '__main__':
     app.run(
