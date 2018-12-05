@@ -8,6 +8,43 @@ h1{
     background-color: #4e6ea0;
 }
 
+#more-questions {
+    background-color: #4e6ea0;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+#more-questions:hover {
+    background-color: #4e6ea0;
+    color: white;
+    border-radius: 10px;
+    animation-name: shake;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    transition-duration: 0.5s;
+    animation-direction: alternate;
+    margin: 0;
+}
+
+@keyframes sizeup {
+    100% {size: 120%}
+}
+
+@keyframes shake {
+    0% {margin: 0}
+    25% {margin-left: 15px}
+    50% {margin: 0}
+    75% {margin-right: 15px}
+    100% {
+        margin: 0;
+        margin-top: -5px;
+        padding: 10px;
+        font-size: 1.2em;
+        }
+}
+
 #add-comment-buttom {
     margin-left: -15px;
 }
