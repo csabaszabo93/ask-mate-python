@@ -150,3 +150,25 @@ def update_answer(cursor, updated_question):
                     """,
                    updated_question)
 
+
+@connection.connection_handler
+def get_comments_for_answers(cursor, question_id):
+    '''Returns a dictionary with keys as answer_id, each value is a list which contain all comments (as dictionaris) related to the key answer_id'''
+    cursor.execute("""
+                    SELECT message, submission_time, answer_id
+                    FROM comment
+                    WHERE question_id = %(question_id)s
+                    """,
+                   {'question_id': question_id})
+    comments =  cursor.fetchall()
+    answer_id_sorted_comments = {}
+    for comment in comments:
+        key = str(comment['answer_id'])
+        del comment['answer_id']
+        if key not in answer_id_sorted_comments:
+            answer_id_sorted_comments[key] = [comment]
+        else:
+            pass
+            answer_id_sorted_comments[key] += [comment]
+
+    return answer_id_sorted_comments
