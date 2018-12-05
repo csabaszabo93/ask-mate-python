@@ -16,14 +16,15 @@ def show_list():
 
 
 @app.route('/question/<question_id>')
-def show_question(question_id, is_new_answer=False):
+def show_question(question_id, is_new_answer=False, answer_to_edit=False):
     question = data_manager.get_question_by_id(question_id)
     answers_for_question = data_manager.get_answers_for_question(question_id)
 
     return render_template('maintain-question.html',
                            question=question,
                            answers_for_question=answers_for_question,
-                           is_new_answer=is_new_answer)
+                           is_new_answer=is_new_answer,
+                           answer_to_edit=answer_to_edit)
 
 
 @app.route('/question/<question_id>/new-answer', methods=["GET", "POST"])
@@ -102,6 +103,15 @@ def delete_answer(answer_id):
     question_id = request.form["question_id"]
     return redirect(url_for("show_question", question_id=question_id))
 
+
+@app.route('/answer/<answer_id>/edit', methods=["GET", "POST"])
+def edit_answer(answer_id):
+    answer = data_manager.get_answer_by_id(answer_id)
+    if request.method == "GET":
+        return show_question(answer['question_id'], answer_to_edit=answer_id)
+    elif request.method == "POST":
+        data_manager.save_new_answer(request.form.to_dict(), question_id)
+        return redirect(url_for("show_question", question_id=question_id))
 
 if __name__ == '__main__':
     app.run(
