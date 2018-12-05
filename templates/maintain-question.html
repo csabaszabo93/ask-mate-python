@@ -135,25 +135,24 @@
         </div>
         <br>
         <div class="extra-pad">
-        <h2 class="h2-style">
-            Answers
-            <div class="form_inline">
-            {% if not is_new_answer %}
-                <a href="/question/{{ question.id }}/new-answer">
-                    <button type="button" class="btn btn-sm btn-info my-button">
-                            <i class="fas fa-plus-square"></i>
-                    </button>
-                </a>
-            {% else %}
-                <a href="/question/{{ question.id }}">
-                    <button type="button" class="btn btn-sm btn-info my-button">
-                            <i class="fas fa-minus-square"></i>
-                    </button>
-                </a>
-            {% endif %}
-            </div>
-        </h2>
-        </div>
+            <h2 class="h2-style">
+                Answers
+                <div class="form_inline">
+                {% if not is_new_answer %}
+                    <a href="/question/{{ question.id }}/new-answer">
+                        <button type="button" class="btn btn-sm btn-info my-button">
+                                <i class="fas fa-plus-square"></i>
+                        </button>
+                    </a>
+                {% else %}
+                    <a href="/question/{{ question.id }}">
+                        <button type="button" class="btn btn-sm btn-info my-button">
+                                <i class="fas fa-minus-square"></i>
+                        </button>
+                    </a>
+                {% endif %}
+                </div>
+            </h2>
         <div style="display: {{ 'none;' if not is_new_answer else 'true;' }}">
             <div class="extra-pad">
                 <form action="/question/{{ question.id }}/new-answer" method="POST">
@@ -174,101 +173,126 @@
             </div>
         </div>
         <br>
-        {% for answer in answers_for_question %}
-        <a name={{answer.id}}></a>
-        <div style="display: {{ 'none;' if answer_to_edit|string != answer.id|string else 'true;' }}">
-
-            <div class="extra-pad">
-                  <form action="/answer/{{ answer.id }}/edit#{{ answer.id }}" method="POST">
-                    <div class="row align-items-center">
-                        <div class="col-4">
-                            <label for="image">Image:</label>
-                            <input type="text" id="image" value="{{ answer.image }}" name="image" class="form-control">
+            {% for answer in answers_for_question %}
+                <a name={{answer.id}}></a>
+                <div style="display: {{ 'none;' if answer_to_edit|string != answer.id|string else 'true;' }}">
+                    <form action="/answer/{{ answer.id }}/edit#{{ answer.id }}" method="POST">
+                        <div class="row align-items-center">
+                            <div class="col-4">
+                                <label for="image">Image:</label>
+                                <input type="text" id="image" value="{{ answer.image }}" name="image" class="form-control">
+                            </div>
+                            <div class="col-7">
+                                <textarea id='message'  name='message' class="form-control" rows="7"
+                                          placeholder="Type here your answer!" required>{{ answer.message }}</textarea>
+                            </div>
+                            <div class="col-1">
+                                <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
+                            </div>
                         </div>
-                        <div class="col-7">
-                             <textarea id='message'  name='message' class="form-control" rows="7"
-                                       placeholder="Type here your answer!" required>{{ answer.message }}</textarea>
-                        </div>
-                        <div class="col-1">
-                            <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <br>
-        <div class="extra-pad" style="display: {{ 'none;' if answer_to_edit|string == answer.id|string else 'true;' }}">
-            <div class="card-body my-answer-body">
-            <p>{{ moment(answer.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
-            <p>
-                <table>
-                    <td><img src="{{ answer.image if answer.image else 'https://via.placeholder.com/150'}}" height="150px"/></td>
-                    <td>{{ answer.message }}</td>
-                </table>
-                <form action='{{ "/question/" + question.id|string + "/vote-up"}}' class='form_inline' method="POST" >
-                    <input type="text" name="answer_id" value="{{ answer.id }}" hidden>
-                    <button type="submit" class="button_up"><h4><i class="fas fa-arrow-circle-up"></i></h4></button>
-                </form>
-                    {{ answer.vote_number }}
-                <form action='{{ "/question/" + question.id|string + "/vote-down"}}' class='form_inline' method="POST" >
-                    <input type="text" name="answer_id" value="{{ answer.id }}" hidden>
-                    <button type="submit" class="button_down"><h4><i class="fas fa-arrow-circle-down"></i></h4></button>
-                </form>
-                <form action="/answer/{{ answer.id }}/delete"  method="POST" class="form_inline">
-                    <input type="text" name="question_id" value="{{ question.id }}" hidden>
-                    <button type="submit" class="btn btn-danger btn-sm my-button">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </form>
-                <a href="/answer/{{ answer.id }}/edit#{{ answer.id }}">
-                    <button type="button" class="btn btn-primary btn-sm my-button">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                </a>
-        {% if not answer.id|string == answer_to_comment|string %}
-                <a href="/answer/{{ answer.id }}/new-comment#{{ answer.id }}">
-                    <button type="button" class="btn btn-primary btn-sm my-button">
-                        <i class="fas fa-comment"></i>
-                    </button>
-                </a>
-            {% else %}
-                <a href="/question/{{ question.id }}#{{ answer.id }}">
-                    <button type="button" class="btn btn-sm btn-info my-button">
-                            <i class="fas fa-minus-square"></i>
-                    </button>
-                </a>
-            {% endif %}
-            </p>
-            </div>
-            </div>
-            <br>
-        <div style="display: {{ 'none;' if not answer.id|string == answer_to_comment|string else 'true;' }}">
-            <div id="add-comment-text">
-                <form action="/answer/{{answer.id}}/new-comment#{{answer.id}}" method="POST">
-                    <div class="row align-items-center">
-                        <div class="col-10">
-                             <textarea id='message' name='message' class="form-control" rows="3"
-                                       placeholder="Type here your comment!" required></textarea>
-                        </div>
-                        <div class="col-2" id='add-comment-buttom'>
-                            <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <br>
-            {% for comment in comments_for_answers[answer.id|string] %}
-                <div id=comment class="card-body my-answer-body">
-                    <p class="no-margin">{{ moment(comment.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
-                    <p class="no-margin">
-                        {{ comment.message }}
-                    </p>
+                    </form>
                 </div>
-            <br>
+                <br>
+                <div style="display: {{ 'none;' if answer_to_edit|string == answer.id|string else 'true;' }}">
+                    <div class="card-body my-answer-body">
+                        <p>{{ moment(answer.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
+                        <p>
+                            <table>
+                                <td><img src="{{ answer.image if answer.image else 'https://via.placeholder.com/150'}}" height="150px"/></td>
+                                <td>{{ answer.message }}</td>
+                            </table>
+                            <form action='{{ "/question/" + question.id|string + "/vote-up"}}' class='form_inline' method="POST" >
+                                <input type="text" name="answer_id" value="{{ answer.id }}" hidden>
+                                <button type="submit" class="button_up"><h4><i class="fas fa-arrow-circle-up"></i></h4></button>
+                            </form>
+                                {{ answer.vote_number }}
+                            <form action='{{ "/question/" + question.id|string + "/vote-down"}}' class='form_inline' method="POST" >
+                                <input type="text" name="answer_id" value="{{ answer.id }}" hidden>
+                                <button type="submit" class="button_down"><h4><i class="fas fa-arrow-circle-down"></i></h4></button>
+                            </form>
+                            <form action="/answer/{{ answer.id }}/delete"  method="POST" class="form_inline">
+                                <input type="text" name="question_id" value="{{ question.id }}" hidden>
+                                <button type="submit" class="btn btn-danger btn-sm my-button">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                            <a href="/answer/{{ answer.id }}/edit#{{ answer.id }}">
+                                <button type="button" class="btn btn-primary btn-sm my-button">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </a>
+                        {% if not answer.id|string == answer_to_comment|string %}
+                            <a href="/answer/{{ answer.id }}/new-comment#{{ answer.id }}">
+                                <button type="button" class="btn btn-primary btn-sm my-button">
+                                    <i class="fas fa-comment"></i>
+                                </button>
+                            </a>
+                        {% else %}
+                            <a href="/question/{{ question.id }}#{{ answer.id }}">
+                                <button type="button" class="btn btn-sm btn-info my-button">
+                                        <i class="fas fa-minus-square"></i>
+                                </button>
+                            </a>
+                        {% endif %}
+                        </p>
+                        <div style="display: {{ 'none;' if not answer.id|string == answer_to_comment|string else 'true;' }}">
+                            <div id="add-comment-text">
+                                <form action="/answer/{{answer.id}}/new-comment#{{answer.id}}" method="POST">
+                                    <div class="row align-items-center">
+                                        <div class="col-10">
+                                             <textarea id='message' name='message' class="form-control" rows="3"
+                                                       placeholder="Type here your comment!" required></textarea>
+                                        </div>
+                                        <div class="col-2" id='add-comment-buttom'>
+                                            <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <br>
+                        <div id="comment">
+                            {% for comment in comments_for_answers[answer.id|string] %}
+                                <a name={{comment.id}}></a>
+                                <div style="display: {{ 'none;' if comment_to_edit|string != comment.id|string else 'true;' }}">
+                                    <div class="card-body my-answer-body">
+                                        <form action="/comments/{{ comment.id }}/edit#{{ comment.id }}" method="POST">
+                                            <div class="row align-items-center">
+                                                <div class="col-9">
+                                                    <textarea id='message'  name='message' class="form-control" rows="3"
+                                                              placeholder="Type here your answer!" required>{{ comment.message }}</textarea>
+                                                </div>
+                                                <div class="col-1">
+                                                    <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <br>
+                                <div style="display: {{ 'none;' if comment_to_edit|string == comment.id|string else 'true;' }}">
+                                    <div class="card-body my-answer-body">
+                                        <p class="no-margin">{{ moment(comment.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
+                                        <p class="no-margin">
+                                            {{ comment.message }}
+                                        </p>
+                                        <p class="no-margin">
+                                            Edited {{ comment.edited_count }} time
+                                            <a href="/comments/{{ comment.id }}/edit#{{ comment.id }}">
+                                                <button type="button" class="btn btn-primary btn-sm my-button">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
-
-        {% endfor %}
+        </div>
     </div>
 </body>
 </html>

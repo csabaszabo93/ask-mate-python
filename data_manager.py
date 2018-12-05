@@ -124,6 +124,7 @@ def get_comments(cursor, id):
     cursor.execute("""
                     SELECT * FROM comment
                     WHERE question_id = %(id)s AND answer_id IS NULL
+                    ORDER BY submission_time DESC
                     """,
                    {"id": id})
     return cursor.fetchall()
@@ -156,9 +157,10 @@ def update_answer(cursor, updated_question):
 def get_comments_for_answers(cursor, question_id):
     '''Returns a dictionary with keys as answer_id, each value is a list which contain all comments (as dictionaris) related to the key answer_id'''
     cursor.execute("""
-                    SELECT message, submission_time, answer_id
+                    SELECT message, submission_time, answer_id, id, edited_count
                     FROM comment
                     WHERE question_id = %(question_id)s
+                    ORDER BY submission_time DESC
                     """,
                    {'question_id': question_id})
     comments =  cursor.fetchall()
