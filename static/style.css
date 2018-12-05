@@ -103,7 +103,12 @@ h1{
 }
 
 .my-button{
+    color: white;
     margin: 5px;
+}
+
+.my-button:hover {
+    color: white;
 }
 
 .round_button {
