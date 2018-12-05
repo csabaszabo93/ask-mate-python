@@ -130,7 +130,7 @@ def get_comments(cursor, id):
 @connection.connection_handler
 def get_filtered_questions(cursor, filter):
     cursor.execute("""
-                    SELECT * FROM question
+                    SELECT question.* FROM question
                     LEFT JOIN answer ON question.id=answer.question_id
                     WHERE question.message LIKE %(word)s
                     OR question.title LIKE %(word)s
@@ -138,4 +138,15 @@ def get_filtered_questions(cursor, filter):
                     ;
                 """,
                 filter)
+    test = cursor.fetchall()
     return cursor.fetchall()
+
+@connection.connection_handler
+def update_answer(cursor, updated_question):
+    cursor.execute("""
+                    UPDATE answer
+                    SET message = %(message)s, image = %(image)s
+                    WHERE id = %(id)s
+                    """,
+                   updated_question)
+
