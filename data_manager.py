@@ -110,6 +110,24 @@ def change_vote(cursor, type, id, change=0):
                     'change': change})
 
 @connection.connection_handler
+def add_comment(cursor, new_comment):
+    cursor.execute("""
+                    INSERT INTO comment
+                    (question_id, answer_id, message) 
+                    VALUES (%(question_id)s, %(answer_id)s, %(message)s)
+                    """,
+                   new_comment)
+
+@connection.connection_handler
+def get_comments(cursor, id):
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE question_id = %(id)s OR answer_id = %(id)s
+                    """,
+                   {"id": id})
+    return cursor.fetchall()
+
+@connection.connection_handler
 def get_filtered_questions(cursor, filter):
     cursor.execute("""
                     SELECT * FROM question

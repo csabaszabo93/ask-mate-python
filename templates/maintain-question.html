@@ -59,6 +59,49 @@
                 </form>
             </h4>
         </p>
+        <div id="comments-title">
+            Comments
+            <div class="form_inline">
+            {% if not is_new_comment %}
+                <a href="/question/{{ question.id }}/new-comment">
+                    <button type="button" class="btn btn-sm btn-info my-button">
+                            <i class="fas fa-plus-square"></i>
+                    </button>
+                </a>
+            {% else %}
+                <a href="/question/{{ question.id }}">
+                    <button type="button" class="btn btn-sm btn-info my-button">
+                            <i class="fas fa-minus-square"></i>
+                    </button>
+                </a>
+            {% endif %}
+            </div>
+        </div>
+        <div style="display: {{ 'none;' if not is_new_comment else 'true;' }}">
+            <div id="add-comment-text">
+                <form action="/question/{{ question.id }}/new-comment" method="POST">
+                    <div class="row align-items-center">
+                        <div class="col-10">
+                             <textarea id='message' name='message' class="form-control" rows="3"
+                                       placeholder="Type here your comment!" required></textarea>
+                        </div>
+                        <div class="col-2" id='add-comment-buttom'>
+                            <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        {% for comment in comments_for_question %}
+            <div id=comment class="card-body my-answer-body">
+                <p class="no-margin">{{ moment(comment.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
+                <p class="no-margin">
+                    {{ comment.message }}
+                </p>
+            </div>
+        <br>
+        {% endfor %}
         </div>
         <br>
         <div class="extra-pad">

@@ -8,6 +8,15 @@ moment = Moment(app)
 
 
 @app.route('/')
+def index():
+    number_of_questions = 5
+
+    questions = data_manager.get_all_questions()
+    questions.sort(reverse=True, key=lambda question: question["submission_time"])
+    questions = questions[:number_of_questions]
+
+    return render_template('list.html', questions=questions)
+
 @app.route('/list')
 def show_list():
     questions = data_manager.get_all_questions()
@@ -16,13 +25,17 @@ def show_list():
 
 
 @app.route('/question/<question_id>')
-def show_question(question_id, is_new_answer=False, answer_to_edit=False):
+def show_question(question_id, is_new_answer=False, is_new_comment=False, answer_to_edit=False):
     question = data_manager.get_question_by_id(question_id)
     answers_for_question = data_manager.get_answers_for_question(question_id)
+    comments_for_question = data_manager.get_comments(question_id)
 
     return render_template('maintain-question.html',
                            question=question,
                            answers_for_question=answers_for_question,
+                           is_new_answer=is_new_answer,
+                           comments_for_question=comments_for_question,
+                           is_new_comment=is_new_comment,
                            is_new_answer=is_new_answer,
                            answer_to_edit=answer_to_edit)
 
@@ -34,7 +47,6 @@ def add_new_answer(question_id):
     elif request.method == "POST":
         data_manager.save_new_answer(request.form.to_dict(), question_id)
         return redirect(url_for("show_question", question_id=question_id))
-
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -102,6 +114,32 @@ def delete_answer(answer_id):
     data_manager.delete_answer(answer_id)
     question_id = request.form["question_id"]
     return redirect(url_for("show_question", question_id=question_id))
+
+
+@app.route('/question/<question_id>/new-comment', methods=["GET", "POST"])
+def add_new_comment_to_question(question_id):
+    if request.method == "GET":
+        return show_question(question_id, is_new_comment=True)
+    elif request.method == "POST":
+        new_comment = request.form.to_dict()
+        new_comment["question_id"] = question_id
+        new_comment["answer_id"] = None
+        data_manager.add_comment(new_comment)
+        return redirect(url_for("show_question", question_id=question_id))
+
+
+@app.route('/answer/<answer_id>/new-comment', methods=["GET", "POST"])
+def add_new_comment_to_answer(answer_id):
+    if request.method == "GET":
+        question_id = data_manager.get_answer_by_id(answer_id)['question_id']
+        return show_question(question_id, is_new_answer_comment=True)
+    elif request.method == "POST":
+        question_id = data_manager.get_answer_by_id(answer_id)['question_id']
+        new_comment = request.form.to_dict()
+        new_comment["question_id"] = question_id
+        new_comment["answer_id"] = answer_id
+        data_manager.add_comment(new_comment)
+        return redirect(url_for("show_question", question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/edit', methods=["GET", "POST"])
