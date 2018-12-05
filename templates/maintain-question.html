@@ -147,11 +147,11 @@
         {% for answer in answers_for_question %}
 
 
-
+        <a name={{answer.id}}></a>
         <div style="display: {{ 'none;' if answer_to_edit|string != answer.id|string else 'true;' }}">
-            <a name={{answer.id}}></a>
+
             <div class="extra-pad">
-                  <form action="/answer/{{ answer.id }}/edit" method="POST">
+                  <form action="/answer/{{ answer.id }}/edit#{{ answer.id }}" method="POST">
                     <div class="row align-items-center">
                         <div class="col-4">
                             <label for="image">Image:</label>
