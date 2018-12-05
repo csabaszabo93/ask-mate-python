@@ -159,3 +159,9 @@ h1{
 .extra-pad{
     padding-left: 150px;
 }
+
+.search-bar {
+    text-align: right;
+    padding-right: 42px;
+    font-size: 20px;
+}

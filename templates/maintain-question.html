@@ -145,7 +145,40 @@
         </div>
         <br>
         {% for answer in answers_for_question %}
+
+
+
+        <div style="display: {{ 'none;' if answer_to_edit|string != answer.id|string else 'true;' }}">
+            <a name={{answer.id}}></a>
             <div class="extra-pad">
+                <form action="/question/{{ question.id }}/new-answer" method="POST">
+                    <div class="row align-items-center">
+                        <div class="col-4">
+                            <label for="image">Image:</label>
+                            <input type="text" id="image" value="{{ answer.image }}" name="image" class="form-control">
+                        </div>
+                        <div class="col-7">
+                             <textarea id='message' value="{{ answer.message }}" name='message' class="form-control" rows="7"
+                                       placeholder="Type here your answer!" required></textarea>
+                        </div>
+                        <div class="col-1">
+                            <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+
+
+
+
+
+
+
+
+
+        <div class="extra-pad" style="display: {{ 'none;' if answer_to_edit|string == answer.id|string else 'true;' }}">
             <div class="card-body my-answer-body">
             <p>{{ moment(answer.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
             <p>
@@ -168,6 +201,16 @@
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </form>
+
+                <a href="/answer/{{ answer.id }}/edit#{{ answer.id }}">
+                    <button type="button" class="btn btn-primary btn-sm my-button">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </a>
+
+
+
+
             </p>
             </div>
             </div>

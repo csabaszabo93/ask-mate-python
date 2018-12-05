@@ -126,3 +126,16 @@ def get_comments(cursor, id):
                     """,
                    {"id": id})
     return cursor.fetchall()
+
+@connection.connection_handler
+def get_filtered_questions(cursor, filter):
+    cursor.execute("""
+                    SELECT question.* FROM question
+                    LEFT JOIN answer ON question.id=answer.question_id
+                    WHERE question.message LIKE %(word)s
+                    OR question.title LIKE %(word)s
+                    OR answer.message LIKE %(word)s        
+                    ;
+                """,
+                filter)
+    return cursor.fetchall()
