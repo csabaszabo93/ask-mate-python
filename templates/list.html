@@ -16,7 +16,19 @@
     {{ moment.include_moment() }}
 </head>
 <body>
-    <h1>AskMate by CAT</h1>
+    <h1>
+        <div class="row header">
+            <div class="col-4">
+                AskMate by CAT
+            </div>
+            <div class="col-8 search-bar">
+                <form action="{{ url_for("search") }}" method="GET">
+                    <input name="search_phrase" type="text" placeholder="Search...">
+                    <button type="submit" class="btn btn-info my-button"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </h1>
     <div class="container">
         <p><a href="/add-question"><button type="button" class="btn btn-secondary">Ask a question</button></a></p>
         <table class="table table-hover my-colors">
@@ -32,7 +44,7 @@
                         <td class="row justify-content-center my-table">
                             <a href="/question/{{ question.id }}">
                                 <button type="button" class="btn btn-success btn-sm my-button">
-                                    <i class="fas fa-search"></i>
+                                    <i class="fas fa-envelope-open-text"></i>
                                 </button>
                             </a>
                             <a href="/question/{{ question.id }}/edit">
