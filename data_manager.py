@@ -130,11 +130,11 @@ def get_comments(cursor, id):
 @connection.connection_handler
 def get_filtered_questions(cursor, filter):
     cursor.execute("""
-                    SELECT question.* FROM question
+                    SELECT DISTINCT question.* FROM question
                     LEFT JOIN answer ON question.id=answer.question_id
-                    WHERE question.message LIKE %(word)s
-                    OR question.title LIKE %(word)s
-                    OR answer.message LIKE %(word)s        
+                    WHERE LOWER(question.message) LIKE LOWER(%(word)s)
+                    OR LOWER(question.title) LIKE LOWER(%(word)s)
+                    OR LOWER(answer.message) LIKE LOWER(%(word)s)
                     ;
                 """,
                 filter)

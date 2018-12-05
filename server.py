@@ -150,12 +150,14 @@ def edit_answer(answer_id):
         data_manager.save_new_answer(request.form.to_dict(), question_id)
         return redirect(url_for("show_question", question_id=question_id))
 
+
 @app.route('/search', methods=["GET"])
 def search():
     query = request.args or {}
     questions = data_manager.get_filtered_questions({'word': '%{}%'.format(query['q'])})
     questions.sort(reverse=True, key=lambda question: question["submission_time"])
     return render_template('list.html', questions=questions)
+
 
 if __name__ == '__main__':
     app.run(
