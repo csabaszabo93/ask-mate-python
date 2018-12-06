@@ -15,7 +15,42 @@
         </div>
     </h1>
     <div class="container">
-        <p><a href="/add-question"><button type="button" class="btn btn-secondary">Ask a question</button></a></p>
+        <p>
+            <table>
+                <tr>
+                    <td>
+                        <a href="/add-question"><button type="button" class="btn btn-secondary">Ask a question</button></a>
+                    </td>
+                    <td style="width: 100%" align="right">
+                        <form action="{{ url_for("show_list") }}" method="GET">
+                            <select name="first_attribute">
+                                <option value="{{ first_ordering_attribute }}" hidden>{{ first_ordering_attribute|capitalize|replace('_', ' ') }}</option>
+                                <option value="submission_time-DESC" {{ '' if first_ordering_attribute else 'selected="selected"'}}>Submission time-desc</option>
+                                <option value="submission_time-ASC">Submission time-asc</option>
+                                <option value="view_number-DESC">View number-desc</option>
+                                <option value="view_number-ASC">View number-asc</option>
+                                <option value="vote_number-DESC">Vote number-desc</option>
+                                <option value="vote_number-ASC">Vote number-asc</option>
+                                <option value="title-DESC">Title-desc</option>
+                                <option value="title-ASC">Title-asc</option>
+                            </select>
+                            <select name="second_attribute">
+                                <option value="{{ second_ordering_attribute }}" hidden>{{ second_ordering_attribute|capitalize|replace('_', ' ') }}</option>
+                                <option value="submission_time-DESC">Submission time-desc</option>
+                                <option value="submission_time-ASC">Submission time-asc</option>
+                                <option value="view_number-DESC" {{ '' if second_ordering_attribute else 'selected="selected"'}}>View number-desc</option>
+                                <option value="view_number-ASC">View number-asc</option>
+                                <option value="vote_number-DESC">Vote number-desc</option>
+                                <option value="vote_number-ASC">Vote number-asc</option>
+                                <option value="title-DESC">Title-desc</option>
+                                <option value="title-ASC">Title-asc</option>
+                            </select>
+                            <button type="submit" class="btn btn-secondary">Order</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </p>
         <table class="table table-hover my-colors">
             <thead>
                 <th></th>

@@ -19,9 +19,10 @@ def index():
 
 @app.route('/list')
 def show_list():
-    questions = data_manager.get_all_questions()
-    questions.sort(reverse=True, key=lambda question: question["submission_time"])
-    return render_template('list.html', questions=questions)
+    first_ordering_attribute = request.args['first_attribute'] if 'first_attribute' in request.args else ''
+    second_ordering_attribute = request.args['second_attribute'] if 'second_attribute' in request.args else ''
+    questions = data_manager.get_all_questions(first_attribute=first_ordering_attribute, second_attribute=second_ordering_attribute)
+    return render_template('list.html', questions=questions, first_ordering_attribute=first_ordering_attribute, second_ordering_attribute=second_ordering_attribute)
 
 
 @app.route('/question/<question_id>')
