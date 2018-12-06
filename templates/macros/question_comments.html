@@ -1,0 +1,19 @@
+{% macro input(comment, moment) -%}
+    <p class="no-margin">{{ moment(comment.submission_time).format('LLL') }}</p>
+    <p class="no-margin">
+        {{ comment.message }}
+    </p>
+    <p class="no-margin">
+        Edited {{ comment.edited_count }} time
+        <a href="/comments/{{ comment.id }}/edit#{{ comment.id }}">
+            <button type="button" class="btn btn-primary btn-sm my-button">
+                <i class="fas fa-edit"></i>
+            </button>
+        </a>
+        <a href="/comments/{{ comment.id }}/delete">
+            <button type="button" class="btn btn-danger btn-sm my-button">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </a>
+    </p>
+{%- endmacro %}

@@ -1,0 +1,17 @@
+{% macro input(answer, answer_to_edit) -%}
+    <form action="/answer/{{ answer.id }}/edit#{{ answer.id }}" method="POST">
+        <div class="row align-items-center">
+            <div class="col-4">
+                <label for="image">Image:</label>
+                <input type="text" id="image" value="{{ answer.image }}" name="image" class="form-control">
+            </div>
+            <div class="col-7">
+                <textarea id='message'  name='message' class="form-control" rows="7"
+                          placeholder="Type here your answer!" required>{{ answer.message }}</textarea>
+            </div>
+            <div class="col-1">
+                <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
+            </div>
+        </div>
+    </form>
+{%- endmacro %}

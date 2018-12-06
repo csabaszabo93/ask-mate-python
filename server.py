@@ -31,6 +31,7 @@ def show_question(question_id, is_new_answer=False, is_new_comment=False, answer
     answers_for_question = data_manager.get_answers_for_question(question_id)
     comments_for_question = data_manager.get_comments(question_id)
     comments_for_answers = data_manager.get_comments_for_answers(question_id)
+    tags_for_question = data_manager.get_tags_for_question(question_id)
 
     return render_template('maintain-question.html',
                            question=question,
@@ -41,7 +42,8 @@ def show_question(question_id, is_new_answer=False, is_new_comment=False, answer
                            is_new_comment=is_new_comment,
                            answer_to_edit=answer_to_edit,
                            answer_to_comment=answer_to_comment,
-                           comment_to_edit=comment_to_edit)
+                           comment_to_edit=comment_to_edit,
+                           tags_for_question=tags_for_question)
 
 
 @app.route('/question/<question_id>/new-answer', methods=["GET", "POST"])
@@ -177,6 +179,20 @@ def edit_comment(comment_id):
         data['id'] = comment_id
         data_manager.update_comment(data)
         return redirect(url_for("show_question", question_id=question_id))
+
+@app.route('/question/<question_id>/new-tag', methods=["POST"])
+def add_question_tag(question_id):
+    if request.form:
+        data = request.form.to_dict()
+        tag_id = data_manager.save_new_tag(data['tag_name'], question_id)
+
+
+
+
+@app.route('/comments/<comment_id>/delete')
+def delete_comment(comment_id):
+    question_id = data_manager.delete_comment(comment_id)['question_id']
+    return redirect(url_for("show_question", question_id=question_id))
 
 
 if __name__ == '__main__':

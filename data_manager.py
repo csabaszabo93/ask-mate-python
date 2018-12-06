@@ -207,3 +207,49 @@ def update_comment(cursor, updated_comment):
                     WHERE id = %(id)s
                     """,
                    updated_comment)
+
+@connection.connection_handler
+def get_tags_for_question(cursor, question_id):
+    cursor.execute("""
+                    SELECT t.name
+                    FROM  question as q, tag as t, question_tag as qt
+                    WHERE qt.question_id = %(question_id)s
+                    AND q.id = qt.question_id
+                    AND t.id = qt.tag_id; 
+                    """,
+                   {'question_id': question_id})
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def save_new_tag(cursor, tag_name, question_id): #data contains tag_name, question_id
+    cursor.execute("""
+                    INSERT INTO tag
+                    (name)
+                    VALUES(%(name)s)
+                    RETURNING id
+                    """,
+                   {'name': tag_name})
+
+    tag_id = cursor.fetchone()['id']
+
+    cursor.execute("""
+                        INSERT INTO question_tag
+                        (question_id, tag_id)
+                        VALUES(%(question_id)s, %(tag_id)s)
+                        RETURNING id
+                        """,
+                        {'question_id': question_id, 'tag_id': tag_id})
+
+    return  cursor.fetchone()['id']
+
+
+@connection.connection_handler
+def delete_comment(cursor, id):
+    cursor.execute("""
+                    DELETE FROM comment
+                    WHERE id=%(id)s
+                    RETURNING question_id
+                    """,
+                   {"id": id})
+    return cursor.fetchone()

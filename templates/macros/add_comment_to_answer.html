@@ -1,0 +1,13 @@
+{% macro input(answer) -%}
+    <form action="/answer/{{answer.id}}/new-comment#{{answer.id}}" method="POST">
+        <div class="row align-items-center">
+            <div class="col-10">
+                <textarea id='message' name='message' class="form-control" rows="3"
+                          placeholder="Type here your comment!" required></textarea>
+            </div>
+            <div class="col-2" id='add-comment-buttom'>
+                <button type='submit' class="btn btn-success"><strong>Send me!</strong></button>
+            </div>
+        </div>
+    </form>
+{%- endmacro %}
