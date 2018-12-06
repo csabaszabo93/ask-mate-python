@@ -1,5 +1,5 @@
 {% macro input(comment, moment) -%}
-    <p class="no-margin">{{ moment(comment.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
+    <p class="no-margin">{{ moment(comment.submission_time).format('LLL') }}</p>
     <p class="no-margin">
         {{ comment.message }}
     </p>
