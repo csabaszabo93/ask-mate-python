@@ -1,5 +1,5 @@
 body{
-    background-image: url("cate.jpg");
+    background-image: url("cate2.jpg");
     opacity: 0.97;
 }
 
@@ -135,7 +135,6 @@ h1{
 .form_inline {
     display: inline-block;
 }
-
 
 .button_up {
     background-color: transparent;
