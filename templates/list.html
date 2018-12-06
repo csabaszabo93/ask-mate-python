@@ -1,21 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>List of questions</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
-    <link rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    {{ moment.include_jquery() }}
-    {{ moment.include_moment() }}
-</head>
-<body>
+{% extends 'layout.html' %}
+{% block content %}
     <img src="/static/running_cat.gif" id="running-cat">
     <h1>
         <div class="row header">
@@ -35,7 +19,6 @@
         <table class="table table-hover my-colors">
             <thead>
                 <th></th>
-                <!--th>ID</th-->
                 <th>Question</th>
                 <th>Submission Time</th>
             </thead>
@@ -59,7 +42,6 @@
                                 </button>
                             </a>
                         </td>
-                        <!--td>{{ question.id }}</td-->
                         <td>{{ question.title }}</td>
                         <td>{{ moment(question.submission_time).format('LLL') }}</td>
                     </tr>
@@ -68,5 +50,4 @@
         </table>
         <div align="center" {{ 'hidden' if not is_index_page else '' }}><a href="/list"><button id="more-questions">More questions</button></a></div>
     </div>
-</body>
-</html>
+{% endblock %}
