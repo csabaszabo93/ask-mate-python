@@ -59,7 +59,7 @@ h1{
 }
 
 @keyframes run {
-    100% {margin-left: 100%}
+    100% {margin-left: 85%}
 }
 
 #add-comment-buttom {
@@ -78,6 +78,10 @@ h1{
     border-radius: 10px;
     margin-left: 200px;
   }
+
+.row {
+    margin: 0;
+}
 
 #comment {
     margin-left: 200px;

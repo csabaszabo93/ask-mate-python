@@ -65,14 +65,14 @@
         <div class="extra-pad">
             {{ answers_head.input(question, is_new_answer) }}
             <div style="display: {{ 'none;' if not is_new_answer else 'true;' }}">
-                <div class="extra-pad">
+                <div class="card-body">
                     {{ add_answer.input(question) }}
                 </div>
             </div>
             <br>
             {% for answer in answers_for_question %}
                 <a name={{answer.id}}></a>
-                <div style="display: {{ 'none;' if answer_to_edit|string != answer.id|string else 'true;' }}">
+                <div style="display: {{ 'none;' if answer_to_edit|string != answer.id|string else 'true;' }}" class="card-body">
                     {{ edit_answer.input(answer, answer_to_edit) }}
                 </div>
                 <br>
