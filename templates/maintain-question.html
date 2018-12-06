@@ -12,6 +12,8 @@
 {% import "macros/edit_question_comment.html" as edit_question_comment %}
 {% import "macros/add_comment_to_answer.html" as add_comment_to_answer %}
 {% import "macros/edit_answer_comment.html" as edit_answer_comment %}
+{% import "macros/question_tags.html" as question_tags %}
+{% import "macros/edit_question_tags.html" as edit_question_tags %}
 
 {% block content %}
     <h1>{{ question.title }}
@@ -34,6 +36,8 @@
     <div class="container">
         <div class="card-body my-question-body">
             {{ question_body.input(question, moment, tags_for_question) }}
+            {{ edit_question_tags.input(tags_for_question, tags_wo_question, show_modal) }}
+            {{ question_tags.input(tags_for_question) }}
             <div id="comments-title">
                 {{ comments_head.input(question, is_new_comment) }}
             </div>

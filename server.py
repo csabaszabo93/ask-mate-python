@@ -25,12 +25,19 @@ def show_list():
 
 
 @app.route('/question/<question_id>')
-def show_question(question_id, is_new_answer=False, is_new_comment=False, answer_to_edit=False, answer_to_comment=False, comment_to_edit=None):
+def show_question(question_id,
+                  is_new_answer=False,
+                  is_new_comment=False,
+                  answer_to_edit=False,
+                  answer_to_comment=False,
+                  show_modal=False,
+                  comment_to_edit=None):
     question = data_manager.get_question_by_id(question_id)
     answers_for_question = data_manager.get_answers_for_question(question_id)
     comments_for_question = data_manager.get_comments(question_id)
     comments_for_answers = data_manager.get_comments_for_answers(question_id)
     tags_for_question = data_manager.get_tags_for_question(question_id)
+    tags_wo_question = data_manager.get_tags_wo_question(question_id)
 
     return render_template('maintain-question.html',
                            question=question,
@@ -42,7 +49,9 @@ def show_question(question_id, is_new_answer=False, is_new_comment=False, answer
                            answer_to_edit=answer_to_edit,
                            answer_to_comment=answer_to_comment,
                            comment_to_edit=comment_to_edit,
-                           tags_for_question=tags_for_question)
+                           tags_for_question=tags_for_question,
+                           tags_wo_question=tags_wo_question,
+                           show_modal=show_modal)
 
 
 @app.route('/question/<question_id>/new-answer', methods=["GET", "POST"])
@@ -192,6 +201,13 @@ def add_question_tag(question_id):
 def delete_comment(comment_id):
     question_id = data_manager.delete_comment(comment_id)['question_id']
     return redirect(url_for("show_question", question_id=question_id))
+
+
+@app.route('/question/<question_id>/new-tag', methods=["POST"])
+def edit_question_tag(question_id):
+    #data #'id'] = comment_id
+    #data_manager.update_comment(data)
+    return redirect(url_for("show_question", question_id=question_id, show_modal=True))
 
 
 if __name__ == '__main__':

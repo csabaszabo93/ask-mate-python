@@ -208,9 +208,20 @@ def get_tags_for_question(cursor, question_id):
                    {'question_id': question_id})
     return cursor.fetchall()
 
+@connection.connection_handler
+def get_tags_wo_question(cursor, question_id):
+    cursor.execute("""
+                    SELECT t.name
+                    FROM  question as q, tag as t, question_tag as qt
+                    WHERE qt.question_id != %(question_id)s
+                    AND q.id = qt.question_id
+                    AND t.id = qt.tag_id; 
+                    """,
+                   {'question_id': question_id})
+    return cursor.fetchall()
 
 @connection.connection_handler
-def save_new_tag(cursor, tag_name, question_id): #data contains tag_name, question_id
+def save_new_tag(cursor, tag_name, question_id):
     cursor.execute("""
                     INSERT INTO tag
                     (name)
@@ -220,7 +231,7 @@ def save_new_tag(cursor, tag_name, question_id): #data contains tag_name, questi
                    {'name': tag_name})
 
     tag_id = cursor.fetchone()['id']
-
+    comment
     cursor.execute("""
                         INSERT INTO question_tag
                         (question_id, tag_id)
@@ -231,6 +242,13 @@ def save_new_tag(cursor, tag_name, question_id): #data contains tag_name, questi
 
     return  cursor.fetchone()['id']
 
+@connection.connection_handler
+def delete_question_tag_connection(cursor, question_id):
+    cursor.execute("""
+                    DELETE FROM question_tag
+                    WHERE question_id = %(question_id)s
+                    """,
+                   {"question_id": question_id})
 
 @connection.connection_handler
 def delete_comment(cursor, id):
