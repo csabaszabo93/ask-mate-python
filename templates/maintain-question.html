@@ -78,7 +78,7 @@
                 <br>
                 <div style="display: {{ 'none;' if answer_to_edit|string == answer.id|string else 'true;' }}">
                     <div class="card-body my-answer-body">
-                        {{ answer_body.input(answer, moment, question) }}
+                        {{ answer_body.input(answer, answer_to_comment, moment, question) }}
                         <div style="display: {{ 'none;' if not answer.id|string == answer_to_comment|string else 'true;' }}">
                             <div id="add-comment-text">
                                 {{ add_comment_to_answer.input(answer) }}
