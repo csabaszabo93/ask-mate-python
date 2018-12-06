@@ -4,10 +4,11 @@ body{
 }
 
 h1{
+    padding-top: 6px;
     color: white;
     padding-left: 42px;
     background-color: #4e6ea0;
-    padding-bottom: 12px;
+    padding-bottom: 6px;
 }
 
 #more-questions {
