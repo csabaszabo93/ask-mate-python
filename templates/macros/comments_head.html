@@ -1,0 +1,18 @@
+{% macro input(question, is_new_comment) -%}
+    Comments
+    <div class="form_inline">
+        {% if not is_new_comment %}
+            <a href="/question/{{ question.id }}/new-comment">
+                <button type="button" class="btn btn-sm btn-info my-button">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+            </a>
+        {% else %}
+            <a href="/question/{{ question.id }}">
+                <button type="button" class="btn btn-sm btn-info my-button">
+                    <i class="fas fa-minus-square"></i>
+                </button>
+            </a>
+        {% endif %}
+    </div>
+{%- endmacro %}

@@ -1,0 +1,42 @@
+{% macro input(answer, moment, question) -%}
+    <p>{{ moment(answer.submission_time).format('YYYY.MM.DD. HH:MM') }}</p>
+    <p>
+        <table>
+            <td><img src="{{ answer.image if answer.image else 'https://via.placeholder.com/150'}}" height="150px"/></td>
+            <td>{{ answer.message }}</td>
+        </table>
+        <form action='{{ "/question/" + question.id|string + "/vote-up"}}' class='form_inline' method="POST" >
+            <input type="text" name="answer_id" value="{{ answer.id }}" hidden>
+            <button type="submit" class="button_up"><h4><i class="fas fa-arrow-circle-up"></i></h4></button>
+        </form>
+        {{ answer.vote_number }}
+        <form action='{{ "/question/" + question.id|string + "/vote-down"}}' class='form_inline' method="POST" >
+            <input type="text" name="answer_id" value="{{ answer.id }}" hidden>
+            <button type="submit" class="button_down"><h4><i class="fas fa-arrow-circle-down"></i></h4></button>
+        </form>
+        <form action="/answer/{{ answer.id }}/delete"  method="POST" class="form_inline">
+            <input type="text" name="question_id" value="{{ question.id }}" hidden>
+            <button type="submit" class="btn btn-danger btn-sm my-button">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </form>
+        <a href="/answer/{{ answer.id }}/edit#{{ answer.id }}">
+            <button type="button" class="btn btn-primary btn-sm my-button">
+                <i class="fas fa-edit"></i>
+            </button>
+        </a>
+        {% if not answer.id|string == answer_to_comment|string %}
+            <a href="/answer/{{ answer.id }}/new-comment#{{ answer.id }}">
+                <button type="button" class="btn btn-primary btn-sm my-button">
+                    <i class="fas fa-comment"></i>
+                </button>
+            </a>
+        {% else %}
+            <a href="/question/{{ question.id }}#{{ answer.id }}">
+                <button type="button" class="btn btn-sm btn-info my-button">
+                    <i class="fas fa-minus-square"></i>
+                </button>
+            </a>
+        {% endif %}
+    </p>
+{%- endmacro %}
