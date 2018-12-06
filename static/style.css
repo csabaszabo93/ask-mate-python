@@ -7,6 +7,7 @@ h1{
     color: white;
     padding-left: 42px;
     background-color: #4e6ea0;
+    padding-bottom: 12px;
 }
 
 #more-questions {
@@ -47,6 +48,8 @@ h1{
 }
 
 #running-cat {
+    background-color: rgba(255,255,255,0.1);
+    background-image: linear-gradient(to right, rgba(78, 110, 160,1), rgba(255,255,255,0.2), rgba(78, 110, 160,1));
     position:absolute;
     height: 100px;
     margin-top: -40px;
