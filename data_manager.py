@@ -74,8 +74,7 @@ def save_new_question(cursor, new_question):
 
 
 @connection.connection_handler
-def save_new_answer(cursor, new_answer, question_id):
-    new_answer['question_id'] = question_id
+def save_new_answer(cursor, new_answer):
     cursor.execute("""
                     INSERT INTO answer
                     (question_id, message, image)

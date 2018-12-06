@@ -1,6 +1,7 @@
 from flask import Flask , render_template, redirect, url_for, request
 import data_manager
 from flask_moment import Moment
+import csv
 
 
 app = Flask(__name__)
@@ -51,7 +52,9 @@ def add_new_answer(question_id):
     if request.method == "GET":
         return show_question(question_id, is_new_answer=True)
     elif request.method == "POST":
-        data_manager.save_new_answer(request.form.to_dict(), question_id)
+        new_answer = request.form.to_dict()
+        new_answer['question_id'] = question_id
+        data_manager.save_new_answer(new_answer)
         return redirect(url_for("show_question", question_id=question_id))
 
 
@@ -187,12 +190,21 @@ def add_question_tag(question_id):
         tag_id = data_manager.save_new_tag(data['tag_name'], question_id)
 
 
-
-
 @app.route('/comments/<comment_id>/delete')
 def delete_comment(comment_id):
     question_id = data_manager.delete_comment(comment_id)['question_id']
     return redirect(url_for("show_question", question_id=question_id))
+
+
+def migrate_old_db():
+    with open("sample_data/question.csv", "r") as oldie:
+        rows = csv.DictReader(oldie)
+        for row in rows:
+            data_manager.save_new_answer(row)
+    with open("sample_data/answer.csv", "r") as oldie:
+        rows = csv.DictReader(oldie)
+        for row in rows:
+            data_manager.save_new_answer(row)
 
 
 if __name__ == '__main__':
