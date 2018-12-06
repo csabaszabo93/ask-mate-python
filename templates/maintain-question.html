@@ -33,7 +33,7 @@
     </h1>
     <div class="container">
         <div class="card-body my-question-body">
-            {{ question_body.input(question, moment) }}
+            {{ question_body.input(question, moment, tags_for_question) }}
             <div id="comments-title">
                 {{ comments_head.input(question, is_new_comment) }}
             </div>
