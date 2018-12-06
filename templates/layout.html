@@ -12,6 +12,16 @@
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
           crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script type="application/javascript">
+        function getConfirmation(commentID) {
+            var objectID = 'delete-comment-'.concat(commentID);
+            var temp = '/comments/'.concat(commentID);
+            var url = temp.concat('/delete');
+            if (confirm("Do you really want to delete this comment?")) {
+                document.getElementById(objectID).href = url;
+            }
+        }
+    </script>
     {{ moment.include_jquery() }}
     {{ moment.include_moment() }}
 </head>
