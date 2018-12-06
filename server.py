@@ -178,6 +178,12 @@ def edit_comment(comment_id):
         return redirect(url_for("show_question", question_id=question_id))
 
 
+@app.route('/comments/<comment_id>/delete')
+def delete_comment(comment_id):
+    question_id = data_manager.delete_comment(comment_id)['question_id']
+    return redirect(url_for("show_question", question_id=question_id))
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',
