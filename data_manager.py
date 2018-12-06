@@ -195,3 +195,14 @@ def update_comment(cursor, updated_comment):
                     WHERE id = %(id)s
                     """,
                    updated_comment)
+
+
+@connection.connection_handler
+def delete_comment(cursor, id):
+    cursor.execute("""
+                    DELETE FROM comment
+                    WHERE id=%(id)s
+                    RETURNING question_id
+                    """,
+                   {"id": id})
+    return cursor.fetchone()
