@@ -1,0 +1,7 @@
+{% macro input(tags_for_question) -%}
+
+             {% for tag in tags_for_question %}
+                <span class="chip"><strong>{{tag.name}}</strong> </span>
+             {% endfor %}
+
+{%- endmacro %}
