@@ -270,3 +270,29 @@ def delete_comment(cursor, id):
                     """,
                    {"id": id})
     return cursor.fetchone()
+
+
+@connection.connection_handler
+def get_users_list(cursor):
+    cursor.execute("""
+                    SELECT user_name
+                    FROM users
+                    """)
+    dicts_of_userdata = cursor.fetchall()
+    list_of_users = []
+
+    for dict_of_userdata in dicts_of_userdata:
+        list_of_users.append(dict_of_userdata['user_name'])
+
+    return list_of_users
+
+
+@connection.connection_handler
+def save_new_user(cursor, username, hashed_password):
+    cursor.execute("""
+                    INSERT INTO users
+                    (user_name, password_hash)
+                    VALUES (%(username)s, %(hashed_password)s)
+                    """,
+                   {'username': username,
+                    'hashed_password': hashed_password})

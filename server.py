@@ -1,4 +1,4 @@
-from flask import Flask , render_template, redirect, url_for, request
+from flask import Flask , render_template, redirect, url_for, request, abort
 import data_manager
 from flask_moment import Moment
 import csv
@@ -230,11 +230,13 @@ def registration():
         user_data = request.form.to_dict()
         username = user_data["username"]
         if username in data_manager.get_users_list():
-            pass
+            abort(404)
         else:
-            hashed_password = bcrypt.hashpwd(user_data["password"], bcrypt.gensalt())
+            hashed_password = bcrypt.hashpw(user_data["password"].encode('utf-8'), bcrypt.gensalt())
             data_manager.save_new_user(username, hashed_password)
+            return redirect(url_for('index'))
     return render_template("registration.html")
+
 
 if __name__ == '__main__':
     app.run(

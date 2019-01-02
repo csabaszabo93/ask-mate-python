@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 {% block content %}
     <div class="centralize">
-        <form action="/register-new-user" method="post">
-            <input id="username_input" name="username" type="text" placeholder="username">
-            <input id="password_input" name="password" type="text" placeholder="password">
+        <form action="/registration" method="post">
+            <input id="username_input" name="username" type="text" placeholder="username" autocomplete="off" required>
+            <input id="password_input" name="password" type="text" placeholder="password" autocomplete="off" required>
             <input id="terms_input" type="checkbox">I read and accept the terms and conditions
             <button id="submit_user_data" type="submit">Registration</button>
         </form>
