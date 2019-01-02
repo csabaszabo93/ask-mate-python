@@ -238,6 +238,12 @@ def registration():
     return render_template("registration.html")
 
 
+@app.route('/all-user-info')
+def all_user_info():
+    all_user_info = data_manager.get_all_user_info()
+    return render_template('list_users_info.html', all_user_info=all_user_info)
+
+
 if __name__ == '__main__':
     app.run(
         host='0.0.0.0',

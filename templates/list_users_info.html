@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="centralize">
+        <table class="text-align-center">
+            <tr>
+                <th>User ID</th>
+                <th>User name</th>
+                <th>Hashed password</th>
+                <th>Date of registration</th>
+            </tr>
+            {% for user_info in all_user_info %}
+                <tr>
+                    <td>{{ user_info.id }}</td>
+                    <td>{{ user_info.user_name }}</td>
+                    <td>{{ user_info.password_hash[0:31] + '\n' + user_info.password_hash[31:]}}</td>
+                    <td>{{ user_info.date_of_registration }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

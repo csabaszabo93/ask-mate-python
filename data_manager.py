@@ -296,3 +296,13 @@ def save_new_user(cursor, username, hashed_password):
                     """,
                    {'username': username,
                     'hashed_password': hashed_password})
+
+
+@connection.connection_handler
+def get_all_user_info(cursor):
+    """Return: list of dicts, keys are id, user_name, password_hash, date_of_registration"""
+    cursor.execute("""
+                    SELECT id, user_name, password_hash, date_of_registration
+                    FROM users
+                    """)
+    return cursor.fetchall()
