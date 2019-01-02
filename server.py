@@ -2,6 +2,7 @@ from flask import Flask , render_template, redirect, url_for, request
 import data_manager
 from flask_moment import Moment
 import csv
+import bcrypt
 
 
 app = Flask(__name__)
@@ -222,6 +223,18 @@ def migrate_old_db():
         for row in rows:
             data_manager.save_new_answer(row)
 
+
+@app.route('/registration', methods=["GET", "POST"])
+def registration():
+    if request.method == "POST":
+        user_data = request.form.to_dict()
+        username = user_data["username"]
+        if username in data_manager.get_users_list():
+            pass
+        else:
+            hashed_password = bcrypt.hashpwd(user_data["password"], bcrypt.gensalt())
+            data_manager.save_new_user(username, hashed_password)
+    return render_template("registration.html")
 
 if __name__ == '__main__':
     app.run(

@@ -204,3 +204,15 @@ h1{
 .show-modal {
     display: true;
 }
+#username_input, #password_input, #submit_user_data {
+    display: block;
+    margin: 2% auto;
+}
+.centralize {
+    background: rgba(135, 175, 229, 0.5);
+    padding: 1%;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
