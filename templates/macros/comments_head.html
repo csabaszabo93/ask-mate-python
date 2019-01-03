@@ -1,12 +1,18 @@
-{% macro input(question, is_new_comment) -%}
+{% macro input(question, is_new_comment, logged_in) -%}
     Comments
     <div class="form_inline">
         {% if not is_new_comment %}
-            <a href="/question/{{ question.id }}/new-comment">
-                <button type="button" class="btn btn-sm btn-info my-button">
+            {% if logged_in %}
+                <a href="/question/{{ question.id }}/new-comment">
+                    <button type="button" class="btn btn-sm btn-info my-button">
+                        <i class="fas fa-plus-square"></i>
+                    </button>
+                </a>
+            {% else %}
+                <button type="button" class="btn btn-sm btn-info my-button" disabled>
                     <i class="fas fa-plus-square"></i>
                 </button>
-            </a>
+            {% endif %}
         {% else %}
             <a href="/question/{{ question.id }}">
                 <button type="button" class="btn btn-sm btn-info my-button">

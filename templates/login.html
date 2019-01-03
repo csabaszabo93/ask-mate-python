@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="centralize">
+        <form action="/login" method="post">
+            <input id="username_input" name="username" type="text" placeholder="username" autocomplete="off" required>
+            <input id="password_input" name="password" type="text" placeholder="password" autocomplete="off" required>
+            <button id="submit_user_data" type="submit">Login</button>
+        </form>
+    </div>
+{% endblock %}

@@ -296,3 +296,71 @@ def save_new_user(cursor, username, hashed_password):
                     """,
                    {'username': username,
                     'hashed_password': hashed_password})
+
+
+@connection.connection_handler
+def save_session(cursor, username, session_id):
+    cursor.execute("""
+                    INSERT INTO sessions
+                    (session_id, username)
+                    VALUES (%(session_id)s, %(username)s)
+                    """,
+                   {'username': username,
+                    'session_id': session_id})
+
+@connection.connection_handler
+def get_hashed_password(cursor, username):
+    cursor.execute("""
+                    SELECT password_hash
+                    FROM users
+                    WHERE user_name = %(username)s
+                    """,
+                   {'username': username})
+    return cursor.fetchone()['password_hash']
+
+
+@connection.connection_handler
+def get_session_ids(cursor):
+    cursor.execute("""
+                    SELECT session_id
+                    FROM sessions
+                    """)
+    dicts_of_session_ids = cursor.fetchall()
+    list_of_session_ids = []
+    for dict_of_session_ids in dicts_of_session_ids:
+        list_of_session_ids.append(dict_of_session_ids['session_id'])
+
+    return list_of_session_ids
+
+@connection.connection_handler
+def get_user(cursor, username):
+    cursor.execute("""
+                    SELECT * FROM users
+                    WHERE user_name = %(username)s
+                    """,
+                   {'username': username})
+    return cursor.fetchone()
+
+@connection.connection_handler
+def get_all_user_info(cursor):
+    """Return: list of dicts, keys are id, user_name, date_of_registration,
+    number of questions, number of answers, number of comments"""
+    cursor.execute("""
+                    SELECT users.id, users.user_name, users.date_of_registration
+                    FROM users
+                    ORDER BY users.id
+                    """)
+    all_user_info = cursor.fetchall()
+
+    for type_of_data in ['question', 'answer', 'comment']:
+        cursor.execute(f"""
+                        SELECT users.id, COUNT({type_of_data}.id) AS "number_of_{type_of_data}s"
+                        FROM users
+                        LEFT JOIN {type_of_data} ON users.id = {type_of_data}.user_id
+                        GROUP BY users.id
+                        ORDER BY users.id
+                        """)
+        for i, user_dict in enumerate(cursor.fetchall()):
+            all_user_info[i][f'number_of_{type_of_data}s'] = user_dict[f'number_of_{type_of_data}s']
+
+    return all_user_info
