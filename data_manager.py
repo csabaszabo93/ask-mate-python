@@ -331,3 +331,12 @@ def get_session_ids(cursor):
         list_of_session_ids.append(dict_of_session_ids['session_id'])
 
     return list_of_session_ids
+
+@connection.connection_handler
+def get_user(cursor, username):
+    cursor.execute("""
+                    SELECT * FROM users
+                    WHERE user_name = %(username)s
+                    """,
+                   {'username': username})
+    return cursor.fetchone()

@@ -22,7 +22,11 @@
             <table>
                 <tr>
                     <td>
-                        <a href="/add-question"><button type="button" class="btn btn-secondary">Ask a question</button></a>
+                        {% if logged_in %}
+                            <a href="/add-question"><button type="button" class="btn btn-secondary">Ask a question</button></a>
+                        {% else %}
+                            <button type="button" class="btn btn-secondary" disabled >Ask a question</button>
+                        {% endif %}
                     </td>
                     <td style="width: 100%" align="right">
                         <form action="{{ url_for("show_list") }}" method="GET">
@@ -69,16 +73,25 @@
                                     <i class="fas fa-envelope-open-text"></i>
                                 </button>
                             </a>
-                            <a href="/question/{{ question.id }}/edit">
-                                <button type="button" class="btn btn-primary btn-sm my-button">
+                            {% if logged_in %}
+                                <a href="/question/{{ question.id }}/edit">
+                                    <button type="button" class="btn btn-primary btn-sm my-button">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </a>
+                                <a href="/question/{{ question.id }}/delete">
+                                    <button type="button" class="btn btn-danger btn-sm my-button">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </a>
+                            {% else %}
+                                <button type="button" class="btn btn-primary btn-sm my-button" disabled>
                                     <i class="fas fa-edit"></i>
                                 </button>
-                            </a>
-                            <a href="/question/{{ question.id }}/delete">
-                                <button type="button" class="btn btn-danger btn-sm my-button">
+                                <button type="button" class="btn btn-danger btn-sm my-button" disabled>
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
-                            </a>
+                            {% endif %}
                         </td>
                         <td>{{ question.title }}</td>
                         <td>{{ moment(question.submission_time).format('LLL') }}</td>

@@ -1,13 +1,19 @@
-{% macro input(question, is_new_answer) -%}
+{% macro input(question, is_new_answer, logged_in) -%}
     <h2 class="h2-style">
         Answers
         <div class="form_inline">
             {% if not is_new_answer %}
-                <a href="/question/{{ question.id }}/new-answer">
-                    <button type="button" class="btn btn-sm btn-info my-button">
+                {% if logged_in %}
+                    <a href="/question/{{ question.id }}/new-answer">
+                        <button type="button" class="btn btn-sm btn-info my-button">
+                            <i class="fas fa-plus-square"></i>
+                        </button>
+                    </a>
+                {% else %}
+                    <button type="button" class="btn btn-sm btn-info my-button" disabled>
                         <i class="fas fa-plus-square"></i>
                     </button>
-                </a>
+                {% endif %}
             {% else %}
                 <a href="/question/{{ question.id }}">
                     <button type="button" class="btn btn-sm btn-info my-button">
