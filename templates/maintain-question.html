@@ -16,7 +16,7 @@
 {% import "macros/edit_question_tags.html" as edit_question_tags %}
 
 {% block content %}
-    <h1>{{ question.title }}
+<h3 class="subtitle">{{ question.title }}
         <a href="/question/{{ question.id }}/edit">
             <button type="button" class="btn btn-primary btn-sm my-button">
                 <i class="fas fa-edit"></i>
@@ -27,12 +27,9 @@
                 <i class="fas fa-trash-alt"></i>
             </button>
         </a>
-        <a href="/">
-            <button type="button" class="btn btn-secondary btn-sm my-button">
-                <i class="fas fa-home"></i>
-            </button>
-        </a>
-    </h1>
+
+</h3>
+
     <div class="container">
         <div class="card-body my-question-body">
             {{ question_body.input(question, moment, tags_for_question) }}

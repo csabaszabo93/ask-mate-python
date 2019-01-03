@@ -49,11 +49,12 @@ h1{
 }
 
 #running-cat {
-    background-color: rgba(255,255,255,0.1);
-    background-image: linear-gradient(to right, rgba(78, 110, 160,1), rgba(255,255,255,0.2), rgba(78, 110, 160,1));
+    /* background-color: rgba(255,255,255,0.1); */
+    /* background-image: linear-gradient(to right, rgba(78, 110, 160,1), rgba(255,255,255,0.2), rgba(78, 110, 160,1)); */
     position:absolute;
+    color: white;
     height: 100px;
-    margin-top: -40px;
+    margin-top: -25px;
     margin-bottom: -10px;
     margin-left: -150px;
     animation-name: run;
@@ -220,3 +221,14 @@ h1{
     top: 50%;
     transform: translate(-50%,-50%);
 }
+.toolbar {
+    background-color: #4e6ea0;
+    /*opacity: 0.85*/
+}
+.subtitle {
+    background-color: white;
+    color: #4e6ea0;
+    width: 100%;
+    text-align: center;
+    /*opacity: 0.85*/
+}#4e6ea0
