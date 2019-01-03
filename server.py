@@ -302,6 +302,15 @@ def login():
         return render_template("login.html")
 
 
+@app.route('/logout')
+def logout():
+    if authenticate_user():
+        session.clear()
+        return redirect(url_for('index'))
+    else:
+        return render_template('login.html')
+
+
 @app.route('/check')
 def check():
     return '{}'.format(session['session_id'] in data_manager.get_session_ids())
