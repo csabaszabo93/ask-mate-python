@@ -296,3 +296,38 @@ def save_new_user(cursor, username, hashed_password):
                     """,
                    {'username': username,
                     'hashed_password': hashed_password})
+
+
+@connection.connection_handler
+def save_session(cursor, username, session_id):
+    cursor.execute("""
+                    INSERT INTO sessions
+                    (session_id, username)
+                    VALUES (%(session_id)s, %(username)s)
+                    """,
+                   {'username': username,
+                    'session_id': session_id})
+
+@connection.connection_handler
+def get_hashed_password(cursor, username):
+    cursor.execute("""
+                    SELECT password_hash
+                    FROM users
+                    WHERE user_name = %(username)s
+                    """,
+                   {'username': username})
+    return cursor.fetchone()['password_hash']
+
+
+@connection.connection_handler
+def get_session_ids(cursor):
+    cursor.execute("""
+                    SELECT session_id
+                    FROM sessions
+                    """)
+    dicts_of_session_ids = cursor.fetchall()
+    list_of_session_ids = []
+    for dict_of_session_ids in dicts_of_session_ids:
+        list_of_session_ids.append(dict_of_session_ids['session_id'])
+
+    return list_of_session_ids

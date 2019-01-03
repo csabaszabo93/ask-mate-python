@@ -1,8 +1,9 @@
-from flask import Flask , render_template, redirect, url_for, request, abort
+from flask import Flask , render_template, redirect, url_for, request, abort, session, make_response
 import data_manager
 from flask_moment import Moment
 import csv
 import bcrypt
+import os
 
 
 app = Flask(__name__)
@@ -233,12 +234,35 @@ def registration():
             abort(404)
         else:
             hashed_password = bcrypt.hashpw(user_data["password"].encode('utf-8'), bcrypt.gensalt())
-            data_manager.save_new_user(username, hashed_password)
+            data_manager.save_new_user(username, hashed_password.decode('utf-8'))
             return redirect(url_for('index'))
     return render_template("registration.html")
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user_data = request.form.to_dict()
+        username = user_data['username']
+        if username in data_manager.get_users_list():
+            if bcrypt.checkpw(user_data['password'].encode('utf-8'), data_manager.get_hashed_password(username).encode('utf-8')):
+                session_id = bcrypt.gensalt().decode('utf-8')
+                session['session_id'] = session_id
+                data_manager.save_session(username, session_id)
+                return redirect(url_for('index'))
+            else:
+                render_template("login.html")
+    else:
+        return render_template("login.html")
+
+
+@app.route('/check')
+def check():
+    return '{}'.format(session['session_id'] in data_manager.get_session_ids())
+
+
 if __name__ == '__main__':
+    app.secret_key = os.urandom(16)
     app.run(
         host='0.0.0.0',
         port=8000,

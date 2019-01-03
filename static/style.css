@@ -210,7 +210,7 @@ h1{
 }
 #username_input, #password_input, #submit_user_data {
     display: block;
-    margin: 2% auto;
+    margin: 2vh auto;
 }
 .centralize {
     background: rgba(135, 175, 229, 0.5);
