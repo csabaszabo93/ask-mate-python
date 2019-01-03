@@ -16,20 +16,27 @@
 {% import "macros/edit_question_tags.html" as edit_question_tags %}
 
 {% block content %}
-<h3 class="subtitle">{{ question.title }}
-        <a href="/question/{{ question.id }}/edit">
-            <button type="button" class="btn btn-primary btn-sm my-button">
+    <h3 class="subtitle">{{ question.title }}
+        {% if logged_in %}
+            <a href="/question/{{ question.id }}/edit">
+                <button type="button" class="btn btn-primary btn-sm my-button">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </a>
+            <a href="/question/{{ question.id }}/delete">
+                <button type="button" class="btn btn-danger btn-sm my-button">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </a>
+        {% else %}
+            <button type="button" class="btn btn-primary btn-sm my-button" disabled>
                 <i class="fas fa-edit"></i>
             </button>
-        </a>
-        <a href="/question/{{ question.id }}/delete">
-            <button type="button" class="btn btn-danger btn-sm my-button">
+            <button type="button" class="btn btn-danger btn-sm my-button" disabled>
                 <i class="fas fa-trash-alt"></i>
             </button>
-        </a>
-
-</h3>
-
+        {% endif %}
+    </h3>
     <div class="container">
         <div class="card-body my-question-body">
             {{ question_body.input(question, moment, tags_for_question) }}

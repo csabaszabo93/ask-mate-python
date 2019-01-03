@@ -10,17 +10,19 @@
         </table>
         <h4>
             {{ question.view_number }}<i class="fas fa-eye"></i>&nbsp;&nbsp;&nbsp;
-            <form action='{{ "/question/" + question.id|string + "/vote-up"}}' class='form_inline' method="POST" >
-                <button type="submit" class="button_up" {{ '' if logged_in else 'disabled' }}>
-                    <i class="fas fa-arrow-circle-up"></i>
-                </button>
-            </form>
+            {% if logged_in %}
+                <form action='{{ "/question/" + question.id|string + "/vote-up"}}' class='form_inline' method="POST" >
+                    <button type="submit" class="button_up">
+                        <i class="fas fa-arrow-circle-up"></i>
+                    </button>
+                </form>
             {{ question.vote_number }}
             <form action='{{ "/question/" + question.id|string + "/vote-down"}}' class='form_inline' method="POST" >
-                <button type="submit" class="button_down" {{ '' if logged_in else 'disabled' }}>
+                <button type="submit" class="button_down" {{ none if logged_in else 'disabled' }}>
                     <i class="fas fa-arrow-circle-down"></i>
                 </button>
             </form>
+            {% endif %}
         </h4>
 </p>
 

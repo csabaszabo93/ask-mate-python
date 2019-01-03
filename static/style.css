@@ -161,6 +161,10 @@ h1{
     color: red;
 }
 
+.button_up:hover, .button_down:hover {
+    cursor: pointer;
+}
+
 .my-question-body {
     background-image: linear-gradient(to right, #6da0f2 , #ca6df2);
     width: 80%;
@@ -231,4 +235,7 @@ h1{
     width: 100%;
     text-align: center;
     /*opacity: 0.85*/
-}#4e6ea0
+}
+.disabled {
+    opacity: 10%;
+}
