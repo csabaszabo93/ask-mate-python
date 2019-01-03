@@ -364,3 +364,23 @@ def get_all_user_info(cursor):
             all_user_info[i][f'number_of_{type_of_data}s'] = user_dict[f'number_of_{type_of_data}s']
 
     return all_user_info
+
+@connection.connection_handler
+def modify_users_reputation(cursor, user_id, change):
+    cursor.execute("""
+                    UPDATE users
+                    SET reputation = reputation + %(change)s
+                    WHERE id = %(user_id)s
+                    """,
+                    {'user_id': user_id,
+                     'change': change})
+
+@connection.connection_handler
+def get_user_id(cursor, type, id):
+    cursor.execute("""
+                    SELECT user_id FROM {}
+                    WHERE id = %(id)s
+                    """.format(type if type in ['answer', 'question'] else ''),
+                   {'id': id,
+                    'type': type})
+    return cursor.fetchone()['user_id']

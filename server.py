@@ -130,8 +130,12 @@ def vote_up(question_id):
         if request.form:
             answer_id = request.form['answer_id']
             data_manager.change_vote('answer', answer_id, 1)
+            user_id = data_manager.get_user_id('answer', answer_id)
+            data_manager.modify_users_reputation(user_id, 10)
         else:
             data_manager.change_vote('question', question_id, 1)
+            user_id = data_manager.get_user_id('question', question_id)
+            data_manager.modify_users_reputation(user_id, 15)
 
         return redirect(url_for('show_question', question_id=question_id))
     return redirect(url_for('login'))
@@ -144,8 +148,12 @@ def vote_down(question_id):
         if request.form:
             answer_id = request.form['answer_id']
             data_manager.change_vote('answer', answer_id, -1)
+            user_id = data_manager.get_user_id('answer', answer_id)
+            data_manager.modify_users_reputation(user_id, -2)
         else:
             data_manager.change_vote('question', question_id, -1)
+            user_id = data_manager.get_user_id('question', question_id)
+            data_manager.modify_users_reputation(user_id, -2)
 
         return redirect(url_for('show_question', question_id=question_id))
     return redirect(url_for('login'))

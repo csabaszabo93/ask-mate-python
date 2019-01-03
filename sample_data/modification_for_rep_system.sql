@@ -1,0 +1,1 @@
+ALTER TABLE public.users ADD reputation int DEFAULT 0 NOT NULL;
