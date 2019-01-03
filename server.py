@@ -71,6 +71,7 @@ def add_new_answer(question_id):
         elif request.method == "POST":
             new_answer = request.form.to_dict()
             new_answer['question_id'] = question_id
+            new_answer['user_id'] = session['user_id']
             data_manager.save_new_answer(new_answer)
             return redirect(url_for("show_question", question_id=question_id))
     return redirect(url_for('login'))

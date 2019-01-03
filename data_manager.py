@@ -77,8 +77,8 @@ def save_new_question(cursor, new_question):
 def save_new_answer(cursor, new_answer):
     cursor.execute("""
                     INSERT INTO answer
-                    (question_id, message, image)
-                    VALUES(%(question_id)s, %(message)s, %(image)s)
+                    (question_id, message, image, user_id)
+                    VALUES(%(question_id)s, %(message)s, %(image)s, %(user_id)s)
                     """,
                    new_answer)
 
