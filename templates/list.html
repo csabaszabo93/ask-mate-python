@@ -1,33 +1,12 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <img src="/static/running_cat.gif" id="running-cat">
-    <h1>
-        <div class="row header">
-            <div class="col-4">
-                <a href="/" class="not-link-appearance">AskMate by CAT</a>
-            </div>
-            <div class="col-4">
-                <a href="/registration" class="not-link-appearance medium-font-size">Registration</a>
-                <a href="/all-user-info" class="not-link-appearance medium-font-size">Users</a>
-            </div>
-            <div class="col-4 search-bar">
-                <form action="{{ url_for("search") }}" method="GET">
-                    <input name="q" type="text" placeholder="Search...">
-                    <button type="submit" class="btn btn-success my-button"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-        </div>
-    </h1>
+
     <div class="container">
         <p>
             <table>
                 <tr>
                     <td>
-                        {% if logged_in %}
-                            <a href="/add-question"><button type="button" class="btn btn-secondary">Ask a question</button></a>
-                        {% else %}
-                            <button type="button" class="btn btn-secondary" disabled >Ask a question</button>
-                        {% endif %}
+                        <a href="/add-question"><button type="button" class="btn btn-secondary">Ask a question</button></a>
                     </td>
                     <td style="width: 100%" align="right">
                         <form action="{{ url_for("show_list") }}" method="GET">
@@ -74,25 +53,16 @@
                                     <i class="fas fa-envelope-open-text"></i>
                                 </button>
                             </a>
-                            {% if logged_in %}
-                                <a href="/question/{{ question.id }}/edit">
-                                    <button type="button" class="btn btn-primary btn-sm my-button">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </a>
-                                <a href="/question/{{ question.id }}/delete">
-                                    <button type="button" class="btn btn-danger btn-sm my-button">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </a>
-                            {% else %}
-                                <button type="button" class="btn btn-primary btn-sm my-button" disabled>
+                            <a href="/question/{{ question.id }}/edit">
+                                <button type="button" class="btn btn-primary btn-sm my-button">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button type="button" class="btn btn-danger btn-sm my-button" disabled>
+                            </a>
+                            <a href="/question/{{ question.id }}/delete">
+                                <button type="button" class="btn btn-danger btn-sm my-button">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
-                            {% endif %}
+                            </a>
                         </td>
                         <td>{{ question.title }}</td>
                         <td>{{ moment(question.submission_time).format('LLL') }}</td>
