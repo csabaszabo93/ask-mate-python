@@ -39,7 +39,7 @@
     </h3>
     <div class="container">
         <div class="card-body my-question-body">
-            {{ question_body.input(question, moment, tags_for_question) }}
+            {{ question_body.input(question, moment, tags_for_question, logged_in) }}
             {{ edit_question_tags.input(tags_for_question, tags_wo_question, show_modal) }}
             {{ question_tags.input(tags_for_question) }}
             <div id="comments-title">
