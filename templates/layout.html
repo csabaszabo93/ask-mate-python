@@ -48,13 +48,15 @@
            <li class="nav-item">
             <a class="nav-link" href="/logout" >Log out</a>
           </li>
-                      <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" href="/all-user-info" >All user info</a>
           </li>
-
-
+          {% if session %}
+          <li class="nav-item">
+            <a class="nav-link" href="/user-page/{{ session.user_id }}" >User page</a>
+          </li>
+          {% endif %}
         </ul>
-
           <form class="form-inline my-2 my-lg-0" action="{{ url_for("search") }}" method="GET">
               <input  class="form-control mr-sm-2" name="q" type="text" placeholder="Search...">
               <button type="submit" class="btn btn-success my-button"><i class="fas fa-search"></i></button>
