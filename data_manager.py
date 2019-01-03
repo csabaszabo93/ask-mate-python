@@ -300,9 +300,24 @@ def save_new_user(cursor, username, hashed_password):
 
 @connection.connection_handler
 def get_all_user_info(cursor):
-    """Return: list of dicts, keys are id, user_name, password_hash, date_of_registration"""
+    """Return: list of dicts, keys are id, user_name, date_of_registration,
+    number of questions, number of answers, number of comments"""
     cursor.execute("""
-                    SELECT id, user_name, password_hash, date_of_registration
+                    SELECT users.id, users.user_name, users.date_of_registration
                     FROM users
+                    ORDER BY users.id
                     """)
-    return cursor.fetchall()
+    all_user_info = cursor.fetchall()
+
+    for type_of_data in ['question', 'answer', 'comment']:
+        cursor.execute(f"""
+                        SELECT users.id, COUNT({type_of_data}.id) AS "number_of_{type_of_data}s"
+                        FROM users
+                        LEFT JOIN {type_of_data} ON users.id = {type_of_data}.user_id
+                        GROUP BY users.id
+                        ORDER BY users.id
+                        """)
+        for i, user_dict in enumerate(cursor.fetchall()):
+            all_user_info[i][f'number_of_{type_of_data}s'] = user_dict[f'number_of_{type_of_data}s']
+
+    return all_user_info
