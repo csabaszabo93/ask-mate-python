@@ -43,7 +43,7 @@
             {{ edit_question_tags.input(tags_for_question, tags_wo_question, show_modal) }}
             {{ question_tags.input(tags_for_question) }}
             <div id="comments-title">
-                {{ comments_head.input(question, is_new_comment) }}
+                {{ comments_head.input(question, is_new_comment, logged_in) }}
             </div>
             <div style="display: {{ 'none;' if not is_new_comment else 'true;' }}">
                 <div id="add-comment-text">
@@ -71,7 +71,7 @@
         </div>
         <br>
         <div class="extra-pad">
-            {{ answers_head.input(question, is_new_answer) }}
+            {{ answers_head.input(question, is_new_answer, logged_in) }}
             <div style="display: {{ 'none;' if not is_new_answer else 'true;' }}">
                 <div class="card-body">
                     {{ add_answer.input(question) }}
