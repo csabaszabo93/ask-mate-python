@@ -85,7 +85,9 @@ def add_question():
         if request.method == 'GET':
             return render_template('add-question.html', question={})
         elif request.method == 'POST':
-            question_id = data_manager.save_new_question(request.form.to_dict())
+            question_attributes = request.form.to_dict()
+            question_attributes['user_id'] = session['user_id']
+            question_id = data_manager.save_new_question(question_attributes)
 
             return redirect(url_for('show_question', question_id=question_id))
     return redirect(url_for('login'))

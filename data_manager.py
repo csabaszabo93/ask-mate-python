@@ -64,8 +64,8 @@ def get_answers_for_question(cursor, question_id):
 def save_new_question(cursor, new_question):
     cursor.execute("""
                     INSERT INTO question
-                    (title, message, image)
-                    VALUES(%(title)s, %(message)s, %(image)s)
+                    (title, message, image, user_id)
+                    VALUES(%(title)s, %(message)s, %(image)s, %(user_id)s)
                     RETURNING id
                     """,
                     new_question)
