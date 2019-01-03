@@ -125,8 +125,8 @@ def change_vote(cursor, type, id, change=0):
 def add_comment(cursor, new_comment):
     cursor.execute("""
                     INSERT INTO comment
-                    (question_id, answer_id, message) 
-                    VALUES (%(question_id)s, %(answer_id)s, %(message)s)
+                    (question_id, answer_id, message, user_id) 
+                    VALUES (%(question_id)s, %(answer_id)s, %(message)s, %(user_id)s)
                     """,
                    new_comment)
 

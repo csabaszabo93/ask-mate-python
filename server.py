@@ -171,6 +171,7 @@ def add_new_comment_to_question(question_id):
             new_comment = request.form.to_dict()
             new_comment["question_id"] = question_id
             new_comment["answer_id"] = None
+            new_comment['user_id'] = session['user_id']
             data_manager.add_comment(new_comment)
             return redirect(url_for("show_question", question_id=question_id))
     return redirect(url_for('login'))
@@ -188,6 +189,7 @@ def add_new_comment_to_answer(answer_id):
             new_comment = request.form.to_dict()
             new_comment["question_id"] = question_id
             new_comment["answer_id"] = answer_id
+            new_comment['user_id'] = session['user_id']
             data_manager.add_comment(new_comment)
             return redirect(url_for("show_question", question_id=question_id))
     return redirect(url_for('login'))
