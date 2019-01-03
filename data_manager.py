@@ -364,3 +364,31 @@ def get_all_user_info(cursor):
             all_user_info[i][f'number_of_{type_of_data}s'] = user_dict[f'number_of_{type_of_data}s']
 
     return all_user_info
+
+@connection.connection_handler
+def get_user_dependencies(cursor, user_id):
+    cursor.execute("""
+                    SELECT 
+                    title, id
+                    FROM question
+                    WHERE user_id = %(user_id)s
+                    """,
+                   {'user_id': user_id})
+    return_dict = {'questions': cursor.fetchall()}
+    cursor.execute("""
+                    SELECT 
+                    message, id
+                    FROM answer
+                    WHERE user_id = %(user_id)s
+                    """,
+                   {'user_id': user_id})
+    return_dict['answers'] = cursor.fetchall()
+    cursor.execute("""
+                    SELECT 
+                    message, id
+                    FROM comment
+                    WHERE user_id = %(user_id)s
+                    """,
+                   {'user_id': user_id})
+    return_dict['comments'] = cursor.fetchall()
+    return return_dict

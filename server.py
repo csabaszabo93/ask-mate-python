@@ -321,6 +321,15 @@ def all_user_info():
     return render_template('list_users_info.html', all_user_info=all_user_info)
 
 
+@app.route('/user-page/<user_id>')
+def show_user_page(user_id):
+    if authenticate_user():
+        user_dependencies = data_manager.get_user_dependencies(user_id)
+        return render_template('user-page.html', user_dependencies=user_dependencies)
+    else:
+        return redirect(url_for('login'))
+
+
 if __name__ == '__main__':
     app.secret_key = os.urandom(16)
     app.run(
