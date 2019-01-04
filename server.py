@@ -84,7 +84,8 @@ def add_question():
             question_id = data_manager.save_new_question(request.form.to_dict())
 
             return redirect(url_for('show_question', question_id=question_id))
-    return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
 
 # restriction needed
@@ -294,6 +295,8 @@ def login():
                 return redirect(url_for('index'))
             else:
                 render_template("login.html")
+        else:
+            render_template("login.html")
     else:
         return render_template("login.html")
 
