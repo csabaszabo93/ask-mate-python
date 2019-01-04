@@ -78,7 +78,16 @@
                 </div>
                 <br>
                 <div style="display: {{ 'none;' if answer_to_edit|string == answer.id|string else 'true;' }}">
-                    <div class="card-body my-answer-body">
+                    <div class="card-body my-answer-body
+                                {{ 'highlight-accepted-answer' if question.accepted_answer_id == answer.id}}">
+                        {% if not question.accepted_answer_id %}
+                            <a href='/question/{{ question.id }}/accept-answer/{{ answer.id }}' class="not-link-appearance">
+                                <div class="accept-answer-button"
+                                     {{ "" if (session['user_id'] == question.user_id) else "hidden"}}>
+                                    Accept answer
+                                </div>
+                            </a>
+                        {% endif %}
                         {{ answer_body.input(answer, answer_to_comment, moment, question) }}
                         <div style="display: {{ 'none;' if not answer.id|string == answer_to_comment|string else 'true;' }}">
                             <div id="add-comment-text">
