@@ -24,8 +24,10 @@ def get_all_questions(cursor, first_attribute='', second_attribute=''):
 @connection.connection_handler
 def get_question_by_id(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM question
-                    WHERE id = %(question_id)s
+                    SELECT question.*, users.user_name as user_name
+                    FROM question
+                    LEFT JOIN users ON users.id = question.user_id
+                    WHERE question.id = %(question_id)s
                     """,
                    {'question_id': question_id})
     return cursor.fetchone()
@@ -51,9 +53,13 @@ def get_all_answers(cursor):
 @connection.connection_handler
 def get_answers_for_question(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM answer
-                    WHERE question_id = %(question_id)s
-                    ORDER BY submission_time DESC
+                    SELECT answer.*, users.user_name as user_name
+                    FROM answer
+                    LEFT JOIN question
+                    ON question.accepted_answer_id = answer.id
+                    LEFT JOIN users ON answer.user_id = users.id
+                    WHERE answer.question_id = %(question_id)s
+                    ORDER BY question.accepted_answer_id ASC, answer.submission_time DESC
                     """,
                    {'question_id': question_id})
 
@@ -64,8 +70,8 @@ def get_answers_for_question(cursor, question_id):
 def save_new_question(cursor, new_question):
     cursor.execute("""
                     INSERT INTO question
-                    (title, message, image)
-                    VALUES(%(title)s, %(message)s, %(image)s)
+                    (title, message, image, user_id)
+                    VALUES(%(title)s, %(message)s, %(image)s, %(user_id)s)
                     RETURNING id
                     """,
                     new_question)
@@ -77,8 +83,8 @@ def save_new_question(cursor, new_question):
 def save_new_answer(cursor, new_answer):
     cursor.execute("""
                     INSERT INTO answer
-                    (question_id, message, image)
-                    VALUES(%(question_id)s, %(message)s, %(image)s)
+                    (question_id, message, image, user_id)
+                    VALUES(%(question_id)s, %(message)s, %(image)s, %(user_id)s)
                     """,
                    new_answer)
 
@@ -125,17 +131,19 @@ def change_vote(cursor, type, id, change=0):
 def add_comment(cursor, new_comment):
     cursor.execute("""
                     INSERT INTO comment
-                    (question_id, answer_id, message) 
-                    VALUES (%(question_id)s, %(answer_id)s, %(message)s)
+                    (question_id, answer_id, message, user_id) 
+                    VALUES (%(question_id)s, %(answer_id)s, %(message)s, %(user_id)s)
                     """,
                    new_comment)
 
 @connection.connection_handler
 def get_comments(cursor, id):
     cursor.execute("""
-                    SELECT * FROM comment
-                    WHERE question_id = %(id)s AND answer_id IS NULL
-                    ORDER BY submission_time DESC
+                    SELECT comment.*, users.user_name as user_name 
+                    FROM comment
+                    LEFT JOIN users ON comment.user_id = users.id
+                    WHERE comment.question_id = %(id)s AND comment.answer_id IS NULL
+                    ORDER BY comment.submission_time DESC
                     """,
                    {"id": id})
     return cursor.fetchall()
@@ -168,10 +176,11 @@ def update_answer(cursor, updated_question):
 def get_comments_for_answers(cursor, question_id):
     '''Returns a dictionary with keys as answer_id, each value is a list which contain all comments (as dictionaris) related to the key answer_id'''
     cursor.execute("""
-                    SELECT message, submission_time, answer_id, id, edited_count
+                    SELECT comment.*, users.user_name as user_name
                     FROM comment
-                    WHERE question_id = %(question_id)s
-                    ORDER BY submission_time DESC
+                    LEFT JOIN users ON comment.user_id = users.id
+                    WHERE comment.question_id = %(question_id)s
+                    ORDER BY comment.submission_time DESC
                     """,
                    {'question_id': question_id})
     comments =  cursor.fetchall()
@@ -365,30 +374,27 @@ def get_all_user_info(cursor):
 
     return all_user_info
 
+
 @connection.connection_handler
 def get_user_dependencies(cursor, user_id):
-    cursor.execute("""
-                    SELECT 
-                    title, id
-                    FROM question
-                    WHERE user_id = %(user_id)s
-                    """,
-                   {'user_id': user_id})
-    return_dict = {'questions': cursor.fetchall()}
-    cursor.execute("""
-                    SELECT 
-                    message, id
-                    FROM answer
-                    WHERE user_id = %(user_id)s
-                    """,
-                   {'user_id': user_id})
-    return_dict['answers'] = cursor.fetchall()
-    cursor.execute("""
-                    SELECT 
-                    message, id
-                    FROM comment
-                    WHERE user_id = %(user_id)s
-                    """,
-                   {'user_id': user_id})
-    return_dict['comments'] = cursor.fetchall()
+    return_dict = {}
+    for table, property in {'question': 'title', 'answer': 'message', 'comment': 'message'}.items():
+        cursor.execute(f"""
+            SELECT 
+            {property}, id
+            FROM {table}
+            WHERE user_id = %(user_id)s
+            """,
+           {'user_id': user_id})
+        return_dict[f"{table}s"] = cursor.fetchall()
     return return_dict
+
+@connection.connection_handler
+def save_accepted_answ_to_quest(cursor, question_id, answer_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET accepted_answer_id = %(answer_id)s
+                    WHERE question.id = %(question_id)s
+                    """,
+                   {'question_id': question_id,
+                    'answer_id': answer_id})

@@ -61,6 +61,7 @@ h1{
     animation-duration: 10s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+    z-index: 1;
 }
 
 @keyframes run {
@@ -161,6 +162,10 @@ h1{
     color: red;
 }
 
+.button_up:hover, .button_down:hover {
+    cursor: pointer;
+}
+
 .my-question-body {
     background-image: linear-gradient(to right, #6da0f2 , #ca6df2);
     width: 80%;
@@ -175,6 +180,7 @@ h1{
 
 .extra-pad{
     padding-left: 150px;
+    padding-bottom: 40px;
 }
 
 .search-bar {
@@ -225,6 +231,7 @@ h1{
     background-color: #4e6ea0;
     /*opacity: 0.85*/
 }
+
 .subtitle {
     background-color: white;
     color: #4e6ea0;
@@ -232,6 +239,31 @@ h1{
     text-align: center;
     /*opacity: 0.85*/
 }
+
 .user-activity {
     padding: 5%;
  }
+
+.accept-answer-button {
+    position: absolute;
+    opacity: 0.8;
+    background-color: #abd655;
+    border-radius: 15px;
+    padding: 12px;
+    left: 70vw;
+    color: black;
+}
+
+.highlight-accepted-answer {
+    box-shadow: 0px 0px 13px 13px #678231;
+}
+
+.text-white-and-unselectable {
+    color: white !important;
+    user-select: none;
+}
+
+.front-side, #navbarSupportedContent li {
+    z-index: 2;
+}
+
