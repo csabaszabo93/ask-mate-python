@@ -2,7 +2,7 @@
     <div class="not-important">
         #{{ question.id }}
     </div>
-    <p>{{ moment(question.submission_time).format('LLL') }}</p>
+    <p>Asked by {{ question.user_name }} on {{ moment(question.submission_time).format('LLL') }}</p>
     <p>
         <table>
             <td><img src="{{ question.image if question.image else 'https://via.placeholder.com/150'}}" height="150px"/></td>
