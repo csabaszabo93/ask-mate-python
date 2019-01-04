@@ -53,9 +53,12 @@ def get_all_answers(cursor):
 @connection.connection_handler
 def get_answers_for_question(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM answer
-                    WHERE question_id = %(question_id)s
-                    ORDER BY submission_time DESC
+                    SELECT answer.*
+                    FROM answer
+                    LEFT JOIN question
+                    ON question.accepted_answer_id = answer.id
+                    WHERE answer.question_id = %(question_id)s
+                    ORDER BY question.accepted_answer_id ASC, answer.submission_time DESC
                     """,
                    {'question_id': question_id})
 
@@ -366,3 +369,14 @@ def get_all_user_info(cursor):
             all_user_info[i][f'number_of_{type_of_data}s'] = user_dict[f'number_of_{type_of_data}s']
 
     return all_user_info
+
+
+@connection.connection_handler
+def save_accepted_answ_to_quest(cursor, question_id, answer_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET accepted_answer_id = %(answer_id)s
+                    WHERE question.id = %(question_id)s
+                    """,
+                   {'question_id': question_id,
+                    'answer_id': answer_id})

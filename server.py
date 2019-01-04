@@ -12,22 +12,20 @@ moment = Moment(app)
 
 @app.route('/')
 def index():
-    logged_in = True if authenticate_user() else False
     number_of_questions = 5
 
     questions = data_manager.get_all_questions()
     questions.sort(reverse=True, key=lambda question: question["submission_time"])
     questions = questions[:number_of_questions]
 
-    return render_template('list.html', questions=questions, is_index_page=True, logged_in=logged_in)
+    return render_template('list.html', questions=questions, is_index_page=True)
 
 @app.route('/list')
 def show_list():
-    logged_in = True if authenticate_user() else False
     first_ordering_attribute = request.args['first_attribute'] if 'first_attribute' in request.args else ''
     second_ordering_attribute = request.args['second_attribute'] if 'second_attribute' in request.args else ''
     questions = data_manager.get_all_questions(first_attribute=first_ordering_attribute, second_attribute=second_ordering_attribute)
-    return render_template('list.html', questions=questions, first_ordering_attribute=first_ordering_attribute, second_ordering_attribute=second_ordering_attribute, logged_in=logged_in)
+    return render_template('list.html', questions=questions, first_ordering_attribute=first_ordering_attribute, second_ordering_attribute=second_ordering_attribute)
 
 
 @app.route('/question/<question_id>')
@@ -44,7 +42,6 @@ def show_question(question_id,
     comments_for_answers = data_manager.get_comments_for_answers(question_id)
     tags_for_question = data_manager.get_tags_for_question(question_id)
     tags_wo_question = data_manager.get_tags_wo_question(question_id)
-    logged_in = True if authenticate_user() else False
 
     return render_template('maintain-question.html',
                            question=question,
@@ -58,8 +55,7 @@ def show_question(question_id,
                            comment_to_edit=comment_to_edit,
                            tags_for_question=tags_for_question,
                            tags_wo_question=tags_wo_question,
-                           show_modal=show_modal,
-                           logged_in=logged_in)
+                           show_modal=show_modal)
 
 
 # restriction needed
@@ -90,7 +86,8 @@ def add_question():
             question_id = data_manager.save_new_question(question_attributes)
 
             return redirect(url_for('show_question', question_id=question_id))
-    return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
 
 # restriction needed
@@ -300,8 +297,19 @@ def login():
                 return redirect(url_for('index'))
             else:
                 render_template("login.html")
+        else:
+            render_template("login.html")
     else:
         return render_template("login.html")
+
+
+@app.route('/logout')
+def logout():
+    if authenticate_user():
+        session.clear()
+        return redirect(url_for('index'))
+    else:
+        return render_template('login.html')
 
 
 @app.route('/check')
@@ -321,6 +329,13 @@ def authenticate_user():
 def all_user_info():
     all_user_info = data_manager.get_all_user_info()
     return render_template('list_users_info.html', all_user_info=all_user_info)
+
+
+@app.route('/question/<question_id>/accept-answer/<answer_id>')
+def accept_answer(question_id, answer_id):
+    data_manager.save_accepted_answ_to_quest(question_id, answer_id)
+
+    return redirect(url_for("show_question", question_id=question_id))
 
 
 if __name__ == '__main__':

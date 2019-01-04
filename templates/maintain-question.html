@@ -17,7 +17,7 @@
 
 {% block content %}
     <h3 class="subtitle">{{ question.title }}
-        {% if logged_in %}
+        {% if session and session.user_id == question.user_id %}
             <a href="/question/{{ question.id }}/edit">
                 <button type="button" class="btn btn-primary btn-sm my-button">
                     <i class="fas fa-edit"></i>
@@ -28,18 +28,11 @@
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </a>
-        {% else %}
-            <button type="button" class="btn btn-primary btn-sm my-button" disabled>
-                <i class="fas fa-edit"></i>
-            </button>
-            <button type="button" class="btn btn-danger btn-sm my-button" disabled>
-                <i class="fas fa-trash-alt"></i>
-            </button>
         {% endif %}
     </h3>
     <div class="container">
         <div class="card-body my-question-body">
-            {{ question_body.input(question, moment, tags_for_question, logged_in) }}
+            {{ question_body.input(question, moment, tags_for_question) }}
             {{ edit_question_tags.input(tags_for_question, tags_wo_question, show_modal) }}
             {{ question_tags.input(tags_for_question) }}
             <div id="comments-title">
@@ -85,7 +78,16 @@
                 </div>
                 <br>
                 <div style="display: {{ 'none;' if answer_to_edit|string == answer.id|string else 'true;' }}">
-                    <div class="card-body my-answer-body">
+                    <div class="card-body my-answer-body
+                                {{ 'highlight-accepted-answer' if question.accepted_answer_id == answer.id}}">
+                        {% if not question.accepted_answer_id %}
+                            <a href='/question/{{ question.id }}/accept-answer/{{ answer.id }}' class="not-link-appearance">
+                                <div class="accept-answer-button"
+                                     {{ "" if (session['user_id'] == question.user_id) else "hidden"}}>
+                                    Accept answer
+                                </div>
+                            </a>
+                        {% endif %}
                         {{ answer_body.input(answer, answer_to_comment, moment, question) }}
                         <div style="display: {{ 'none;' if not answer.id|string == answer_to_comment|string else 'true;' }}">
                             <div id="add-comment-text">
