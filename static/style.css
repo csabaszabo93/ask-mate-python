@@ -231,4 +231,7 @@ h1{
     width: 100%;
     text-align: center;
     /*opacity: 0.85*/
-}#4e6ea0
+}
+.user-activity {
+    padding: 5%;
+ }

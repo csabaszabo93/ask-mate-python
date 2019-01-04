@@ -1,27 +1,29 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h2>My questions</h2>
-    <ul>
-        {% for question in user_dependencies.questions %}
-            <li>
-                <a href="/question/{{ question.id }}">{{ question.title }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <h2>My answers</h2>
-    <ul>
-        {% for answer in user_dependencies.answers %}
-            <li>
-                {{ answer.message }}
-            </li>
-        {% endfor %}
-    </ul>
-    <h2>My comments</h2>
-    <ul>
-        {% for comment in user_dependencies.comments %}
-            <li>
-                {{ comment.message }}
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="centralize user-activity">
+        <h2>My questions</h2>
+        <ul>
+            {% for question in user_dependencies.questions %}
+                <li>
+                    <a href="/question/{{ question.id }}">{{ question.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <h2>My answers</h2>
+        <ul>
+            {% for answer in user_dependencies.answers %}
+                <li>
+                    {{ answer.message }}
+                </li>
+            {% endfor %}
+        </ul>
+        <h2>My comments</h2>
+        <ul>
+            {% for comment in user_dependencies.comments %}
+                <li>
+                    {{ comment.message }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
