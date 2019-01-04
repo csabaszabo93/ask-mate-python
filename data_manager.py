@@ -24,8 +24,10 @@ def get_all_questions(cursor, first_attribute='', second_attribute=''):
 @connection.connection_handler
 def get_question_by_id(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM question
-                    WHERE id = %(question_id)s
+                    SELECT question.*, users.user_name as user_name
+                    FROM question
+                    JOIN users ON users.id = question.user_id
+                    WHERE question.id = %(question_id)s
                     """,
                    {'question_id': question_id})
     return cursor.fetchone()
@@ -53,9 +55,11 @@ def get_answers_for_question(cursor, question_id):
     cursor.execute("""
                     SELECT answer.*, users.user_name as user_name
                     FROM answer
+                    LEFT JOIN question
+                    ON question.accepted_answer_id = answer.id
                     JOIN users ON answer.user_id = users.id
-                    WHERE question_id = %(question_id)s
-                    ORDER BY submission_time DESC
+                    WHERE answer.question_id = %(question_id)s
+                    ORDER BY question.accepted_answer_id ASC, answer.submission_time DESC
                     """,
                    {'question_id': question_id})
 
@@ -66,8 +70,8 @@ def get_answers_for_question(cursor, question_id):
 def save_new_question(cursor, new_question):
     cursor.execute("""
                     INSERT INTO question
-                    (title, message, image)
-                    VALUES(%(title)s, %(message)s, %(image)s)
+                    (title, message, image, user_id)
+                    VALUES(%(title)s, %(message)s, %(image)s, %(user_id)s)
                     RETURNING id
                     """,
                     new_question)
@@ -366,3 +370,14 @@ def get_all_user_info(cursor):
             all_user_info[i][f'number_of_{type_of_data}s'] = user_dict[f'number_of_{type_of_data}s']
 
     return all_user_info
+
+
+@connection.connection_handler
+def save_accepted_answ_to_quest(cursor, question_id, answer_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET accepted_answer_id = %(answer_id)s
+                    WHERE question.id = %(question_id)s
+                    """,
+                   {'question_id': question_id,
+                    'answer_id': answer_id})
