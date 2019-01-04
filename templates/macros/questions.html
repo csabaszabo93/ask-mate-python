@@ -18,13 +18,11 @@
                 </form>
                 {{ question.vote_number }}
                 <form action='{{ "/question/" + question.id|string + "/vote-down"}}' class='form_inline' method="POST" >
-                    <button type="submit" class="button_down" {{ none if logged_in else 'disabled' }}>
+                    <button type="submit" class="button_down">
                         <i class="fas fa-arrow-circle-down"></i>
                     </button>
                 </form>
             {% endif %}
         </h4>
 </p>
-
-
 {%- endmacro %}
