@@ -133,9 +133,11 @@ def add_comment(cursor, new_comment):
 @connection.connection_handler
 def get_comments(cursor, id):
     cursor.execute("""
-                    SELECT * FROM comment
-                    WHERE question_id = %(id)s AND answer_id IS NULL
-                    ORDER BY submission_time DESC
+                    SELECT comment.*, users.user_name as user_name 
+                    FROM comment
+                    LEFT JOIN users ON comment.user_id = users.id
+                    WHERE comment.question_id = %(id)s AND comment.answer_id IS NULL
+                    ORDER BY comment.submission_time DESC
                     """,
                    {"id": id})
     return cursor.fetchall()
@@ -168,10 +170,11 @@ def update_answer(cursor, updated_question):
 def get_comments_for_answers(cursor, question_id):
     '''Returns a dictionary with keys as answer_id, each value is a list which contain all comments (as dictionaris) related to the key answer_id'''
     cursor.execute("""
-                    SELECT message, submission_time, answer_id, id, edited_count
+                    SELECT comment.*, users.user_name as user_name
                     FROM comment
-                    WHERE question_id = %(question_id)s
-                    ORDER BY submission_time DESC
+                    LEFT JOIN users ON comment.user_id = users.id
+                    WHERE comment.question_id = %(question_id)s
+                    ORDER BY comment.submission_time DESC
                     """,
                    {'question_id': question_id})
     comments =  cursor.fetchall()
