@@ -53,10 +53,11 @@ def get_all_answers(cursor):
 @connection.connection_handler
 def get_answers_for_question(cursor, question_id):
     cursor.execute("""
-                    SELECT answer.*
+                    SELECT answer.*, users.user_name as user_name
                     FROM answer
                     LEFT JOIN question
                     ON question.accepted_answer_id = answer.id
+                    LEFT JOIN users ON answer.user_id = users.id
                     WHERE answer.question_id = %(question_id)s
                     ORDER BY question.accepted_answer_id ASC, answer.submission_time DESC
                     """,
@@ -82,8 +83,8 @@ def save_new_question(cursor, new_question):
 def save_new_answer(cursor, new_answer):
     cursor.execute("""
                     INSERT INTO answer
-                    (question_id, message, image)
-                    VALUES(%(question_id)s, %(message)s, %(image)s)
+                    (question_id, message, image, user_id)
+                    VALUES(%(question_id)s, %(message)s, %(image)s, %(user_id)s)
                     """,
                    new_answer)
 
