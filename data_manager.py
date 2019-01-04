@@ -26,7 +26,7 @@ def get_question_by_id(cursor, question_id):
     cursor.execute("""
                     SELECT question.*, users.user_name as user_name
                     FROM question
-                    JOIN users ON users.id = question.user_id
+                    LEFT JOIN users ON users.id = question.user_id
                     WHERE question.id = %(question_id)s
                     """,
                    {'question_id': question_id})
