@@ -32,11 +32,11 @@
     </h3>
     <div class="container">
         <div class="card-body my-question-body">
-            {{ question_body.input(question, moment, tags_for_question, logged_in) }}
+            {{ question_body.input(question, moment, tags_for_question) }}
             {{ edit_question_tags.input(tags_for_question, tags_wo_question, show_modal) }}
             {{ question_tags.input(tags_for_question) }}
             <div id="comments-title">
-                {{ comments_head.input(question, is_new_comment, logged_in) }}
+                {{ comments_head.input(question, is_new_comment) }}
             </div>
             <div style="display: {{ 'none;' if not is_new_comment else 'true;' }}">
                 <div id="add-comment-text">
@@ -64,7 +64,7 @@
         </div>
         <br>
         <div class="extra-pad">
-            {{ answers_head.input(question, is_new_answer, logged_in) }}
+            {{ answers_head.input(question, is_new_answer) }}
             <div style="display: {{ 'none;' if not is_new_answer else 'true;' }}">
                 <div class="card-body">
                     {{ add_answer.input(question) }}
