@@ -321,6 +321,13 @@ def all_user_info():
     return render_template('list_users_info.html', all_user_info=all_user_info)
 
 
+@app.route('/question/<question_id>/accept-answer/<answer_id>')
+def accept_answer(question_id, answer_id):
+    data_manager.save_accepted_answ_to_quest(question_id, answer_id)
+
+    return redirect(url_for("show_question", question_id=question_id))
+
+
 if __name__ == '__main__':
     app.secret_key = os.urandom(16)
     app.run(

@@ -231,4 +231,14 @@ h1{
     width: 100%;
     text-align: center;
     /*opacity: 0.85*/
-}#4e6ea0
+}
+
+.accept-answer-button {
+    position: absolute;
+    opacity: 0.8;
+    background-color: #abd655;
+    border-radius: 15px;
+    padding: 12px;
+    left: 70vw;
+    color: black;
+}
