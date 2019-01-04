@@ -61,6 +61,7 @@ h1{
     animation-duration: 10s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+    z-index: 1;
 }
 
 @keyframes run {
@@ -256,4 +257,8 @@ h1{
 .text-white-and-unselectable {
     color: white !important;
     user-select: none;
+}
+
+.front-side, #navbarSupportedContent li {
+    z-index: 2;
 }

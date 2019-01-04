@@ -28,7 +28,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light navbar-dark toolbar" >
         <img src="/static/running_cat.gif" id="running-cat">
-        <a class="navbar-brand text-white-and-unselectable"><h3>AskMate by CAT</h3></a>
+        <h3 class="text-white-and-unselectable front-side" >AskMate by CAT</h3>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -53,7 +53,7 @@
                     </li>
                 {% endif %}
             </ul>
-            <form class="form-inline my-2 my-lg-0" action="{{ url_for("search") }}" method="GET">
+            <form class="form-inline my-2 my-lg-0 front-side" action="{{ url_for("search") }}" method="GET">
                 <input  class="form-control mr-sm-2" name="q" type="text" placeholder="Search...">
                 <button type="submit" class="btn btn-success my-button"><i class="fas fa-search"></i></button>
             </form>
