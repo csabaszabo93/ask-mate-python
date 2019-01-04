@@ -78,7 +78,8 @@
                 </div>
                 <br>
                 <div style="display: {{ 'none;' if answer_to_edit|string == answer.id|string else 'true;' }}">
-                    <div class="card-body my-answer-body">
+                    <div class="card-body my-answer-body
+                                {{ 'highlight-accepted-answer' if question.accepted_answer_id == answer.id}}">
                         {% if not question.accepted_answer_id %}
                             <a href='/question/{{ question.id }}/accept-answer/{{ answer.id }}' class="not-link-appearance">
                                 <div class="accept-answer-button"

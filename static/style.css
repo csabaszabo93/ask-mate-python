@@ -242,3 +242,7 @@ h1{
     left: 70vw;
     color: black;
 }
+
+.highlight-accepted-answer {
+    box-shadow: 0px 0px 13px 13px #678231;
+}
