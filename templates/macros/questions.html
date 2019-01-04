@@ -1,4 +1,4 @@
-{% macro input(question, moment, tags_for_question, logged_in) -%}
+{% macro input(question, moment, tags_for_question) -%}
     <div class="not-important">
         #{{ question.id }}
     </div>
@@ -10,7 +10,7 @@
         </table>
         <h4>
             {{ question.view_number }}<i class="fas fa-eye"></i>&nbsp;&nbsp;&nbsp;
-            {% if logged_in %}
+            {% if session %}
                 <form action='{{ "/question/" + question.id|string + "/vote-up"}}' class='form_inline' method="POST" >
                     <button type="submit" class="button_up">
                         <i class="fas fa-arrow-circle-up"></i>
