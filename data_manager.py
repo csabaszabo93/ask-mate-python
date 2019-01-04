@@ -57,7 +57,7 @@ def get_answers_for_question(cursor, question_id):
                     FROM answer
                     LEFT JOIN question
                     ON question.accepted_answer_id = answer.id
-                    JOIN users ON answer.user_id = users.id
+                    LEFT JOIN users ON answer.user_id = users.id
                     WHERE answer.question_id = %(question_id)s
                     ORDER BY question.accepted_answer_id ASC, answer.submission_time DESC
                     """,
