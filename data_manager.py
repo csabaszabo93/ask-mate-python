@@ -376,6 +376,20 @@ def get_all_user_info(cursor):
 
 
 @connection.connection_handler
+def get_user_dependencies(cursor, user_id):
+    return_dict = {}
+    for table, property in {'question': 'title', 'answer': 'message', 'comment': 'message'}.items():
+        cursor.execute(f"""
+            SELECT 
+            {property}, id
+            FROM {table}
+            WHERE user_id = %(user_id)s
+            """,
+           {'user_id': user_id})
+        return_dict[f"{table}s"] = cursor.fetchall()
+    return return_dict
+
+@connection.connection_handler
 def save_accepted_answ_to_quest(cursor, question_id, answer_id):
     cursor.execute("""
                     UPDATE question

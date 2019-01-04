@@ -240,6 +240,10 @@ h1{
     /*opacity: 0.85*/
 }
 
+.user-activity {
+    padding: 5%;
+ }
+
 .accept-answer-button {
     position: absolute;
     opacity: 0.8;
@@ -262,3 +266,4 @@ h1{
 .front-side, #navbarSupportedContent li {
     z-index: 2;
 }
+
