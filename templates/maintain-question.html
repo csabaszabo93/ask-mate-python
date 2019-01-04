@@ -16,27 +16,27 @@
 {% import "macros/edit_question_tags.html" as edit_question_tags %}
 
 {% block content %}
-<h3 class="subtitle">{{ question.title }}
-        <a href="/question/{{ question.id }}/edit">
-            <button type="button" class="btn btn-primary btn-sm my-button">
-                <i class="fas fa-edit"></i>
-            </button>
-        </a>
-        <a href="/question/{{ question.id }}/delete">
-            <button type="button" class="btn btn-danger btn-sm my-button">
-                <i class="fas fa-trash-alt"></i>
-            </button>
-        </a>
-
-</h3>
-
+    <h3 class="subtitle">{{ question.title }}
+        {% if session and session.user_id == question.user_id %}
+            <a href="/question/{{ question.id }}/edit">
+                <button type="button" class="btn btn-primary btn-sm my-button">
+                    <i class="fas fa-edit"></i>
+                </button>
+            </a>
+            <a href="/question/{{ question.id }}/delete">
+                <button type="button" class="btn btn-danger btn-sm my-button">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </a>
+        {% endif %}
+    </h3>
     <div class="container">
         <div class="card-body my-question-body">
-            {{ question_body.input(question, moment, tags_for_question) }}
+            {{ question_body.input(question, moment, tags_for_question, logged_in) }}
             {{ edit_question_tags.input(tags_for_question, tags_wo_question, show_modal) }}
             {{ question_tags.input(tags_for_question) }}
             <div id="comments-title">
-                {{ comments_head.input(question, is_new_comment) }}
+                {{ comments_head.input(question, is_new_comment, logged_in) }}
             </div>
             <div style="display: {{ 'none;' if not is_new_comment else 'true;' }}">
                 <div id="add-comment-text">
@@ -64,7 +64,7 @@
         </div>
         <br>
         <div class="extra-pad">
-            {{ answers_head.input(question, is_new_answer) }}
+            {{ answers_head.input(question, is_new_answer, logged_in) }}
             <div style="display: {{ 'none;' if not is_new_answer else 'true;' }}">
                 <div class="card-body">
                     {{ add_answer.input(question) }}
