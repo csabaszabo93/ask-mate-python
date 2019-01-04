@@ -51,7 +51,9 @@ def get_all_answers(cursor):
 @connection.connection_handler
 def get_answers_for_question(cursor, question_id):
     cursor.execute("""
-                    SELECT * FROM answer
+                    SELECT answer.*, users.user_name as user_name
+                    FROM answer
+                    JOIN users ON answer.user_id = users.id
                     WHERE question_id = %(question_id)s
                     ORDER BY submission_time DESC
                     """,

@@ -1,5 +1,5 @@
 {% macro input(answer, answer_to_comment, moment, question) -%}
-    <p>{{ moment(answer.submission_time).format('LLL') }}</p>
+    <p>Answer sent by {{ answer.user_name }} on {{ moment(answer.submission_time).format('LLL') }}</p>
     <p>
         <table>
             <td><img src="{{ answer.image if answer.image else 'https://via.placeholder.com/150'}}" height="150px"/></td>
